@@ -98,6 +98,11 @@ exists and why the app is also published to Pages — see the build plan.
 
 ## Things that cost time to learn
 
+- **Pages serves from `/cowboy-chords/`, not from `/`.** Every path in the app
+  must be relative (`src/theme.css`, `content/chords.json`), never
+  root-absolute (`/src/theme.css`), or it works at localhost and 404s for her.
+  The service worker in Phase 7 has to register with an explicit relative
+  scope for the same reason.
 - `justinguitar.com` returns 403 to WebFetch. The in-app browser reads it fine;
   use that when the PRD asks for a source to be fetched rather than paraphrased.
 - Ultimate Guitar's search URL scheme in PRD §4 is live as of 2026-09-13:
