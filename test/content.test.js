@@ -205,3 +205,18 @@ test("catches an alternate with no label to tell it apart by", () => {
   delete doc.chords.find((c) => c.id === "Dm").alternates[0].label;
   assert.match(validateChords(doc).join("\n"), /has no label/);
 });
+
+test("every chord says what usually goes wrong on it", () => {
+  // The chord with nothing here is the one she gets stuck on, and PRD §5.3
+  // stops halfway without it: she finds the dead string and then has nowhere
+  // to look.
+  for (const chord of chords.chords) {
+    assert.ok(chord.watchFor?.length > 20, `${chord.id} has no watchFor`);
+  }
+});
+
+test("catches a chord with nothing to watch for", () => {
+  const doc = good();
+  delete doc.chords[0].watchFor;
+  assert.match(validateChords(doc).join("\n"), /has no watchFor/);
+});

@@ -4,7 +4,8 @@
     "why": "The drill this app is built on is Justin's. If she looks a chord up and the app disagrees with the source, the app is wrong even when it is defensible. Two of these differ from the fingering most charts show: Em is fingers 2 and 3 rather than 1 and 2, and Dm uses the little finger on the B string.",
     "strumSpans": "Which strings are played is not on every chord-library page. Em ('you play all the strings'), Am ('don't play the thickest string') and Dm ('we don't play the thickest two strings', which also settles D) come from those pages. A is from the lesson How To Play The A Chord (b1-108): 'The 6th string (thickest) comes with an X'. C is from The C Chord (b1-501): 'try to mute the thickest string - we don't want to play it anyways'. G follows from its own fingering: the 6th string is fretted at the 3rd fret, so it is played.",
     "toReplace": "If a fingering here is ever changed, change this note with it and say where the new one came from.",
-    "alternateFingerings": "Em: The Emin Chord (bc-122) — 'Learn to play this chord with your 2nd and 3rd fingers as shown above; later on, you could come back and experiment with using your 1st and 2nd, or 3rd and 4th fingers.' A: the chord library page — 'Often, you'll see the traditional position for the A chord, using fingers 1, 2, and 3, all in a row, in the second fret. I find it harder to manage, but choose the easiest one for you.' Dm: the chord library page — 'If you struggle to use your little finger, try using your third finger.' All read 2026-09-13."
+    "alternateFingerings": "Em: The Emin Chord (bc-122) — 'Learn to play this chord with your 2nd and 3rd fingers as shown above; later on, you could come back and experiment with using your 1st and 2nd, or 3rd and 4th fingers.' A: the chord library page — 'Often, you'll see the traditional position for the A chord, using fingers 1, 2, and 3, all in a row, in the second fret. I find it harder to manage, but choose the easiest one for you.' Dm: the chord library page — 'If you struggle to use your little finger, try using your third finger.' All read 2026-09-13.",
+    "watchFor": "The common-mistake line on each chord's page in the JustinGuitar chord library, plus The C Chord (b1-501) and How To Play The A Chord (b1-108), all read 2026-09-13. Reworded, not quoted: his Dm note ends with a reason to press harder, and PRD §5.2 does not allow that anywhere in this app."
   },
   "_strings": "Strings are numbered the standard way: 1 is the thinnest (high E), 6 is the thickest (low E). Fret 0 means open. Every string from 1 to 6 must appear exactly once across fingers, open and muted — the validator enforces it, because a string listed twice or not at all renders a silently wrong chord.",
   "unlockOrder": [
@@ -78,7 +79,8 @@
             }
           ]
         }
-      ]
+      ],
+      "watchFor": "The usual one is the third finger leaning back onto the third string. If a string in the middle sounds dead, look there first."
     },
     {
       "id": "A",
@@ -134,7 +136,8 @@
             }
           ]
         }
-      ]
+      ],
+      "watchFor": "Three fingers in one fret is tight, so the usual one is finger 3 touching the thinnest string. If the top string goes quiet, that is why."
     },
     {
       "id": "D",
@@ -167,7 +170,8 @@
       "muted": [
         6,
         5
-      ]
+      ],
+      "watchFor": "Two here. The third finger sitting too far back from the fret sounds fuzzy rather than dead; the same finger leaning over onto the thinnest string kills it outright."
     },
     {
       "id": "G",
@@ -199,7 +203,8 @@
         3,
         2
       ],
-      "muted": []
+      "muted": [],
+      "watchFor": "The second finger leaning down onto the fifth string. If that keeps happening, Justin's own advice is to leave the first finger off altogether for now — the chord still works and it is easier to play."
     },
     {
       "id": "C",
@@ -232,7 +237,8 @@
       ],
       "muted": [
         6
-      ]
+      ],
+      "watchFor": "Your fingers need to come at the strings upright rather than flat. If the strings next door are dying, angle them a little more."
     },
     {
       "id": "Am",
@@ -265,7 +271,8 @@
       ],
       "muted": [
         6
-      ]
+      ],
+      "watchFor": "The first finger leaning down onto the thinnest string. Same fix as always: come in on the very tip."
     },
     {
       "id": "E",
@@ -297,7 +304,8 @@
         2,
         1
       ],
-      "muted": []
+      "muted": [],
+      "watchFor": "A flat hand. If it lies down instead of coming in on the fingertips, something underneath it will be muted."
     },
     {
       "id": "Dm",
@@ -353,8 +361,10 @@
             }
           ]
         }
-      ]
+      ],
+      "watchFor": "The little finger is the awkward one. Get it right next to the fret, which is what makes it take less effort. If it will not go, the third finger does the same job."
     }
   ],
-  "_alternates": "Justin's fingering is the default for each chord. Where he offers another way, it is listed here and she can pick it in the chord detail view; the app then draws her choice everywhere, including the drill. An alternate plays exactly the same strings at exactly the same frets — only which finger goes where changes — and the validator enforces that, because an alternate that changes the chord is a bug."
+  "_alternates": "Justin's fingering is the default for each chord. Where he offers another way, it is listed here and she can pick it in the chord detail view; the app then draws her choice everywhere, including the drill. An alternate plays exactly the same strings at exactly the same frets — only which finger goes where changes — and the validator enforces that, because an alternate that changes the chord is a bug.",
+  "_watchFor": "What usually goes wrong on this chord, and which finger to look at. PRD §5.3 teaches her to find the dead string herself; this is the half that was missing — what to do once she has found it. Justin names a common mistake on nearly every chord page and these are his, in the app's voice. This is the one place user-facing copy lives outside src/strings.js, because it belongs to the chord and Ash edits it here; the voice test covers this file too."
 }

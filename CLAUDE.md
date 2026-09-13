@@ -41,7 +41,10 @@ thing and gets her to a real song fast.
 - Progress is a line going up over time, never a percentage. There is no
   "complete".
 - Every user-facing string lives in `src/strings.js`, never inline in a screen,
-  so the voice can be reviewed as a set. Every colour, size and spacing value
+  so the voice can be reviewed as a set. The one exception is copy that
+  belongs to a piece of content and is hand-edited with it — a chord's
+  `watchFor`, an alternate's label — which lives in `content/`. The voice test
+  covers both files, so the exception costs nothing. Every colour, size and spacing value
   lives in `src/theme.css`. No screen invents either.
 - The chord box is the signature object. One component, drawn from JSON, used
   everywhere, with the root always marked the same way (PRD §3.1, §5.1). Chord
