@@ -397,18 +397,39 @@ PRD §8.7.
 - `manifest.webmanifest`, icons, service worker. Installable to the Chrome
   taskbar, opens without a URL bar, works offline after first load. The UG
   link-out stays the only network call the app makes.
-- **The service worker must not pin a version.** Measured 2026-09-13: GitHub
-  Pages sends `Cache-Control: max-age=600` on every file and does not let you
-  change it, so a browser that has the page open already serves its own copy
-  for up to ten minutes after a push. That is a shrug — a hard refresh fixes
-  it and a fresh launch never sees it. A cache-first service worker is the
-  same failure with no upper bound: it would serve the version it first saw
-  forever, and Ash's JSON edits would stop reaching her laptop entirely,
-  which is the one promise the whole no-build-step arrangement rests on.
-  So: **network-first for the page and `content/`, falling back to the cache
-  when there is no network**, which keeps PRD §5's offline requirement and
-  keeps edits arriving. Precaching by hash is not available here; there is no
-  build step to produce the hashes.
+- **The service worker serves from the cache and revalidates behind it.**
+  Measured 2026-09-13: GitHub Pages sends `Cache-Control: max-age=600` on
+  every file and does not let you change it, so a tab that already had the
+  page open serves its own copy for up to ten minutes after a push. That is a
+  shrug. A cache-first service worker would be the same failure with no upper
+  bound — the version it first saw, forever — and Ash's JSON edits would stop
+  reaching her laptop, which is the one promise the whole no-build-step
+  arrangement rests on.
+
+  Network-first was the first answer here and it was **wrong** (Ash,
+  2026-09-13). It makes every launch wait on a round trip that, on a bedroom
+  laptop with indifferent wifi, does not fail fast — the failure mode is not
+  "old content", it is nothing happening for eight seconds before she has
+  played a note. So: **stale-while-revalidate.** Serve the cached copy
+  instantly, fetch the new one behind it, use it next launch. An edit reaches
+  her one session later than the push rather than immediately, which is fine,
+  because nothing in `content/` is urgent. She never waits, and **offline is
+  the same code path as online** rather than a fallback that only ever runs
+  when something has already gone wrong.
+
+- **Revalidate by version, not by file.** With no build step there are no
+  hashes, and refreshing files one at a time can leave a launch running
+  `app.js` from this week against `store.js` from last — worse than being a
+  week stale. So the worker keeps one cache named for a version constant,
+  fills it completely before it becomes current, and swaps whole. A launch
+  gets one consistent set of files or the previous one, never a mixture.
+
+- **The schema is the one thing that cannot be a session stale** (Ash,
+  2026-09-13). If `cc:schema` is bumped and older code is still running, it
+  reads a store it does not understand. `store.open()` therefore checks the
+  stored schema against its own and **refuses to write when the store is
+  newer than the code**, rather than trusting the cache to be in step. That
+  guard is in from Phase 2, before there is a service worker to get it wrong.
 - Export and import progress as a JSON file.
 
 **Gate.** She installs it from the Pages URL, goes through first run once,
