@@ -33,30 +33,96 @@ it does not belong in `theme.css`.
 | `--pearl`, `--pearl-dim` | inlay dots. Primary and secondary text. |
 | `--bronze`, `--bronze-dim` | a bronze-wound string. **The live thing** — current beat, active chord, the progress line. Used sparingly enough that it always means "this one, now". |
 | `--tape`, `--ink` | masking tape and ballpoint. The song list only. |
+| `--card`, `--card-edge`, `--card-ink`, `--card-ink-dim` | a printed chord card and the ink on it. The chord box, and nothing else. |
+| `--root-mark` | the coloured silk at a string's ball end. The root, and nothing else. |
 
 `--pearl` is a text colour and never a background; the moment it becomes a
 ground, this becomes the cream-paper app we rejected. `--nickel-dim` is for
 hairlines, never for text — it does not carry enough contrast on wood.
 
+`--card` is the one exception, and it is an object rather than a ground: the
+chord box is a light card sitting on the dark, for the reason in §2. Nothing
+else in the app is light.
+
 ## 2. The signature: the chord box
 
-One bold element, everything else quiet (PRD §6). The chord box is it, and it
-is **a slice of the fretboard, not a printed grid**:
+One bold element, everything else quiet (PRD §6). The chord box is it.
 
-- Vertical, dark wood panel. Nickel fret lines with a real highlight edge, so
-  the frets read as metal sitting above wood rather than as table rules.
-- **Six strings at their actual relative gauges** — `--gauge-1` through
-  `--gauge-6`, scaled from a light acoustic set (.012–.053). The low E is
-  visibly two and a half times the high E. This is the one real risk in the
-  design, and it earns itself twice: it is true to the instrument, and it means
-  she can tell which string is which by looking, which is half of learning to
-  read a chord box at all.
-- Fingertip dots in pearl, finger numbers inside them.
-- **The root is a ring, not a filled dot** (PRD §3.1, §5.1). Same treatment
-  everywhere in the app, always, never explained mid-drill. A ring reads as
-  "this one is different" without reading as "this one is wrong".
-- Open strings as a small ring above the nut, muted strings as a cross, both
-  in `--nickel`.
+### It is a printed card on a dark desk
+
+**The interface is dark; the chord box is light.** Not a slice of fretboard —
+that was the first idea and it was wrong for the reason that matters most.
+
+She will read chord boxes everywhere else in her life: Ultimate Guitar, books,
+every video she ever watches. All of them are black on white. A chord box in
+inverted contrast means learning the shape twice, once for this app and once
+for the world. The app is the thing that should give way.
+
+So the box renders as a pale printed card — `--card`, with `--card-ink` for
+everything drawn on it — sitting on the wood. That is also truer to the world
+PRD §6 borrows from: a setlist taped to a guitar is paper on lacquer, and a
+chord book on a bed is paper on a dark quilt. The dark interface stays; the
+notation inside it stays standard.
+
+### What is on the card
+
+- Six strings as ink lines at **their actual relative gauges** — `--gauge-1`
+  through `--gauge-6`, from a light acoustic set (.012–.053). The low E is two
+  and a half times the high E. This is the one real risk in the design and it
+  earns itself twice: it is true to the instrument, and it means she can tell
+  which string is which by looking, which is half of learning to read a chord
+  box at all.
+- Frets as ink hairlines, the nut as a thick bar at the top.
+- Fingertip dots filled in `--card-ink`, finger numbers reversed out of them.
+- Open strings as a small ring above the nut, muted strings as a cross. Both
+  standard, both in `--card-ink-dim`.
+
+### The root is not a ring
+
+A ring is already taken. In standard notation an open circle above the nut
+means "play this string open", and the collision is not avoidable by position
+either: **for Em, A and D the root *is* an open string**, so a root-ring would
+land exactly where the open-string ring lives, meaning two things at once on
+the diagrams she sees first.
+
+The root keeps the marker it would have had — filled dot, or open ring above
+the nut — and is distinguished by **two channels that are not shape**:
+
+1. `--root-mark` instead of `--card-ink`, and
+2. **the note's letter set inside the marker.** G's root dot has a `G` in it.
+
+Two channels, so it survives both a colourblind reader and a small rendering.
+The letter also does PRD §5.1's job for free: the root is always marked *and*
+always named, no quiz and no theory screen, and after a few hundred reps she
+has noticed that the G chord's root is a G.
+
+**To verify when it is built, not to assume:** whether the letter is legible
+inside the marker at the size the box renders at in the drill. If it is not,
+the fallback is hue plus a thin inner outline, and the letter lives only in the
+chord detail view. Decide by looking at it, not here.
+
+### Small sizes, and where the gauge idea stops working
+
+Measured in Chrome, 2026-09-13, rather than assumed:
+
+| box width | thinnest → thickest | the root's letter |
+|---|---|---|
+| 232px (detail, and the drill) | 1.4 → 3.6px | 8×12px, plainly readable |
+| 150px (the chord list) | 1 → 2.3px | 6×8px, readable |
+| 132px | 1 → 2.0px, **B and high E both clamp to 1** | 5×7px |
+| 90px | everything toward 1px | 3×5px, too small |
+
+So the gauges are honest **at about 150px and up**, and below that they
+compress toward a uniform hairline because 1px is the floor and there is
+nowhere left to go. That is accepted rather than worked around: printed chord
+boxes are uniform anyway, so a small box that flattens is merely ordinary,
+while a large box that shows the truth is the thing worth having. The sizes
+that matter — the drill, where she stares at it, and the detail view — are
+both above the threshold.
+
+**No box below 150px anywhere she reads a shape from.** A song-list thumbnail
+can be smaller, because it is a reminder of a shape she already knows rather
+than the thing she learns it from.
 
 Drawn once as one component from `chords.json`, used everywhere, never
 reimplemented. Chord boxes are not tab and the app never conflates them.

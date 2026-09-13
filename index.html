@@ -6,18 +6,74 @@
     <title>Cowboy Chords</title>
     <link rel="stylesheet" href="src/theme.css" />
     <style>
-      /* Phase 0 scaffolding. Phase 1 replaces this page with the real shell;
-       * the token specimen below goes with it. Nothing here is a pattern to
-       * copy — it exists to prove theme.css renders and the server serves. */
+      /* Layout only. Every colour, size and spacing value comes from
+       * theme.css, and the chord box brings its own styles with it. */
 
-      .shell {
-        max-width: var(--measure);
+      .page {
+        max-width: 46rem;
         margin: 0 auto;
-        padding: var(--space-8) var(--space-5);
+        padding: var(--space-7) var(--space-5) var(--space-8);
       }
 
-      .shell h1 {
-        margin: var(--space-2) 0 var(--space-4);
+      .page-title {
+        margin: var(--space-1) 0 var(--space-5);
+        font-family: var(--font-label);
+        font-size: var(--text-xl);
+        font-weight: var(--weight-label);
+        letter-spacing: 0.04em;
+        line-height: var(--leading-tight);
+        text-transform: uppercase;
+      }
+
+      .chord-list-intro {
+        max-width: var(--measure);
+        margin: 0 0 var(--space-6);
+        color: var(--pearl-dim);
+      }
+
+      .chord-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+        gap: var(--space-5);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .chord-cell {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-2);
+        width: 100%;
+        padding: 0;
+        border: 0;
+        background: none;
+        color: inherit;
+        cursor: pointer;
+      }
+
+      .chord-cell-name {
+        font-family: var(--font-label);
+        font-size: var(--text-sm);
+        font-weight: var(--weight-label);
+        letter-spacing: var(--tracking-label);
+        text-transform: uppercase;
+        color: var(--pearl);
+      }
+
+      .chord-back {
+        display: block;
+        margin-bottom: var(--space-5);
+        padding: 0;
+        border: 0;
+        background: none;
+        color: var(--pearl-dim);
+        cursor: pointer;
+      }
+
+      .chord-detail-name {
+        margin: 0 0 var(--space-5);
         font-family: var(--font-label);
         font-size: var(--text-2xl);
         font-weight: var(--weight-label);
@@ -26,128 +82,43 @@
         text-transform: uppercase;
       }
 
-      .shell p {
-        margin: 0;
+      .chord-detail-box {
+        margin-bottom: var(--space-6);
+      }
+
+      .chord-detail p {
+        max-width: var(--measure);
+        margin: 0 0 var(--space-4);
+      }
+
+      .chord-detail-root {
+        color: var(--pearl);
+      }
+
+      .chord-detail p:not(.chord-detail-root) {
         color: var(--pearl-dim);
       }
 
-      .specimen {
-        margin-top: var(--space-8);
-        padding-top: var(--space-5);
-        border-top: var(--hair) solid var(--nickel-dim);
-      }
-
-      .swatches {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        gap: var(--space-2);
-        margin: var(--space-4) 0 var(--space-6);
-        padding: 0;
-        list-style: none;
-      }
-
-      .swatches span {
-        display: block;
-        height: var(--space-7);
-        border: var(--hair) solid var(--nickel-dim);
-        border-radius: var(--radius);
-      }
-
-      .swatches code {
-        display: block;
-        margin-top: var(--space-1);
-        font-family: var(--font-number);
-        font-size: var(--text-xs);
-        color: var(--pearl-dim);
-      }
-
-      /* The gauge ladder: the six strings at their real relative widths. Not the
-       * chord box — that is Phase 1 — but the token it will be drawn from. */
-      .gauges {
-        display: flex;
-        align-items: stretch;
-        gap: var(--space-5);
-        height: calc(var(--space-8) * 2);
-        margin: var(--space-4) 0 var(--space-6);
-      }
-
-      .gauges i {
-        display: block;
-        background: var(--nickel);
-      }
-
-      .gauges i:nth-child(1) { width: var(--gauge-6); }
-      .gauges i:nth-child(2) { width: var(--gauge-5); }
-      .gauges i:nth-child(3) { width: var(--gauge-4); }
-      .gauges i:nth-child(4) { width: var(--gauge-3); }
-      .gauges i:nth-child(5) { width: var(--gauge-2); }
-      .gauges i:nth-child(6) { width: var(--gauge-1); }
-
-      .type-row {
-        margin-bottom: var(--space-4);
-      }
-
-      .type-row b {
-        display: block;
-        font-weight: inherit;
-      }
-
-      .sample-label {
-        font-family: var(--font-label);
-        font-size: var(--text-lg);
-        font-weight: var(--weight-label);
-        letter-spacing: var(--tracking-label);
-        text-transform: uppercase;
-      }
-
-      .sample-number {
-        font-family: var(--font-number);
-        font-size: var(--text-score);
-        line-height: 1;
-        font-variant-numeric: tabular-nums;
-        color: var(--bronze);
+      .chord-detail-quiet {
+        font-size: var(--text-sm);
       }
     </style>
   </head>
   <body>
-    <main class="shell">
-      <p class="label">Phase 0 — scaffolding</p>
-      <h1 id="heading"></h1>
-      <p id="body"></p>
-
-      <section class="specimen">
-        <p class="label">Materials</p>
-        <ul class="swatches">
-          <li><span style="background: var(--wood-deep)"></span><code>wood-deep</code></li>
-          <li><span style="background: var(--wood-raised)"></span><code>wood-raised</code></li>
-          <li><span style="background: var(--nickel)"></span><code>nickel</code></li>
-          <li><span style="background: var(--pearl)"></span><code>pearl</code></li>
-          <li><span style="background: var(--bronze)"></span><code>bronze</code></li>
-          <li><span style="background: var(--tape)"></span><code>tape</code></li>
-        </ul>
-
-        <p class="label">String gauges — .053 to .012</p>
-        <div class="gauges" aria-hidden="true">
-          <i></i><i></i><i></i><i></i><i></i><i></i>
-        </div>
-
-        <p class="label">Type</p>
-        <div class="type-row"><b class="sample-label">Changes</b></div>
-        <div class="type-row"><b class="sample-number">14</b></div>
-        <div class="type-row">
-          Lightest pressure that still rings clean — fingertip just behind the
-          fret, thumb behind the neck.
-        </div>
-      </section>
+    <main class="page">
+      <p class="label" id="eyebrow"></p>
+      <h1 class="page-title" id="title"></h1>
+      <div id="screen"></div>
     </main>
 
     <script type="module">
       import { strings } from "./src/strings.js";
+      import { mountChords } from "./src/chords-screen.js";
 
-      // Copy comes from strings.js from the very first screen, so the voice can
-      // always be read as a set. See docs/DESIGN_BRIEF.md §7.
-      document.getElementById("heading").textContent = strings.scaffold.heading;
-      document.getElementById("body").textContent = strings.scaffold.body;
+      document.getElementById("eyebrow").textContent = strings.appName;
+      document.getElementById("title").textContent = strings.chords.title;
+
+      mountChords(document.getElementById("screen"));
     </script>
   </body>
 </html>

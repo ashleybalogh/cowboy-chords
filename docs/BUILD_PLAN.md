@@ -5,7 +5,8 @@ strictly in order. Do not start a phase until the previous gate passes and Ash
 confirms. One branch per phase, one PR, merged by Ash.
 
 Last updated 2026-09-13, against the PRD's four-stage revision and its
-voice-not-content revision of §6. Nothing built yet; the repo has no commits.
+voice-not-content revision of §6. Phase 0 is merged and live; Phase 1 is open
+as a PR.
 
 ---
 
@@ -50,6 +51,23 @@ consequence and no wording that implies one — not "removed", not a warning
 dialog, not a count that goes down. Her scores for pairs involving that chord
 are kept, not deleted, so relocking costs her nothing and re-unlocking finds
 her history where she left it. Songs needing it simply go quiet again.
+
+**The chord box is a light card, and the root is not a ring** (Ash,
+2026-09-13, reviewing Phase 0). Two corrections to the design brief, both
+recorded here because both are the kind of thing that gets quietly reverted by
+someone who thinks they are tidying up:
+
+- **A ring cannot mean "root".** An open circle above the nut already means
+  "play this string open", and position does not disambiguate it: for Em, A
+  and D the root *is* an open string. Root is hue plus the note's letter, on
+  whatever marker the string already has.
+- **The box is light on the dark ground.** Every chord box she meets outside
+  this app — Ultimate Guitar, books, videos — is black on white. Inverted
+  contrast here would mean learning each shape twice. The app gives way, not
+  the notation.
+- And one thing to check rather than assume: whether the high E, at 1/2.5 the
+  width of the low E, is still legible with dots sitting on it at the size the
+  drill renders. Verified at that size in Phase 1's gate.
 
 **Her songs, from her** (Ash, 2026-09-13). Phase 4 seeds from these, not from
 a list of correct beginner songs:
@@ -157,6 +175,9 @@ src/
   theme.css           every colour, size and spacing value. Screens invent none.
   strings.js          every user-facing string, reviewable as a set
   chordbox.js         the signature object (PRD §6)
+  content.js          loads and validates the four files
+  validate-content.js the rules a hand-edit can break
+  chords-screen.js    the chord list, and one chord up close
   store.js            localStorage, cc: keys, schema version, export/import
   changes.js          the drill
   strum.js            grid + Web Audio clock
@@ -237,8 +258,16 @@ PRD §8.1. Everything else draws on this.
 - `chordbox.js`: SVG, drawn entirely from the JSON, one component used
   everywhere. Nut, frets, dots, finger numbers, open and muted strings.
   Chord boxes, never tab; the app does not conflate the two (PRD §3.1).
-- **The root marked distinctly in every box, always** (PRD §3.1, §5.1). One
-  treatment, chosen once, used everywhere, never explained mid-drill.
+- **A light printed card on the dark ground**, not a slice of fretboard
+  (design brief §2). She reads black-on-white chord boxes everywhere else;
+  inverting them here would mean learning every shape twice.
+- **The root marked distinctly in every box, always** (PRD §3.1, §5.1), by
+  hue and by the note's letter — **never by a ring**, which already means
+  "play this string open" and collides immediately, since for Em, A and D the
+  root *is* an open string.
+- **Delete the Phase 0 token specimen** from `index.html`. It existed to prove
+  `theme.css` renders before there was a component to render. There is one
+  now.
 - Chord detail view: the root named in one plain line (PRD §5.1), the
   ring-clean diagnostic (PRD §5.3), and the pressure copy (PRD §5.2) —
   lightest pressure that still rings clean, fingertip just behind the fret,
@@ -251,7 +280,14 @@ PRD §8.1. Everything else draws on this.
 **Gate.** A chord gallery shows all eight as chord boxes and they are worth
 looking at; the root reads at a glance without a legend; tests cover the
 validator and the unlock-order rules; editing a finger position in
-`chords.json` and refreshing moves the dot.
+`chords.json` and refreshing moves the dot; the Phase 0 specimen is gone.
+
+**And one thing checked by looking, at the size that matters:** two boxes side
+by side at the size they will be in the drill, sharing the screen with a timer.
+The high E and the dots sitting on it have to be legible there, and the note
+letter inside the root marker has to be readable. If the letter is not, the
+fallback is hue plus a thin inner outline with the letter only in the detail
+view — decided at that size, not in advance.
 
 ## Phase 2 — the drill and the line
 

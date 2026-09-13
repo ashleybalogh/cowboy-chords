@@ -1,0 +1,110 @@
+{
+  "_source": {
+    "fingerings": "justinguitar.com chord library, one page per chord (/chords/emin, /chords/a, /chords/d, /chords/g, /chords/c, /chords/amin, /chords/e, /chords/dmin), read 2026-09-13.",
+    "why": "The drill this app is built on is Justin's. If she looks a chord up and the app disagrees with the source, the app is wrong even when it is defensible. Two of these differ from the fingering most charts show: Em is fingers 2 and 3 rather than 1 and 2, and Dm uses the little finger on the B string.",
+    "strumSpans": "Which strings are played is not on every chord-library page. Em ('you play all the strings'), Am ('don't play the thickest string') and Dm ('we don't play the thickest two strings', which also settles D) come from those pages. A is from the lesson How To Play The A Chord (b1-108): 'The 6th string (thickest) comes with an X'. C is from The C Chord (b1-501): 'try to mute the thickest string - we don't want to play it anyways'. G follows from its own fingering: the 6th string is fretted at the 3rd fret, so it is played.",
+    "toReplace": "If a fingering here is ever changed, change this note with it and say where the new one came from."
+  },
+
+  "_strings": "Strings are numbered the standard way: 1 is the thinnest (high E), 6 is the thickest (low E). Fret 0 means open. Every string from 1 to 6 must appear exactly once across fingers, open and muted — the validator enforces it, because a string listed twice or not at all renders a silently wrong chord.",
+
+  "unlockOrder": ["Em", "A", "D", "G", "C", "Am", "E", "Dm"],
+
+  "chords": [
+    {
+      "id": "Em",
+      "name": "Em",
+      "root": { "string": 6, "fret": 0, "note": "E" },
+      "fingers": [
+        { "string": 5, "fret": 2, "finger": 2 },
+        { "string": 4, "fret": 2, "finger": 3 }
+      ],
+      "open": [6, 3, 2, 1],
+      "muted": []
+    },
+    {
+      "id": "A",
+      "name": "A",
+      "root": { "string": 5, "fret": 0, "note": "A" },
+      "fingers": [
+        { "string": 4, "fret": 2, "finger": 2 },
+        { "string": 3, "fret": 2, "finger": 1 },
+        { "string": 2, "fret": 2, "finger": 3 }
+      ],
+      "open": [5, 1],
+      "muted": [6]
+    },
+    {
+      "id": "D",
+      "name": "D",
+      "root": { "string": 4, "fret": 0, "note": "D" },
+      "fingers": [
+        { "string": 3, "fret": 2, "finger": 1 },
+        { "string": 2, "fret": 3, "finger": 3 },
+        { "string": 1, "fret": 2, "finger": 2 }
+      ],
+      "open": [4],
+      "muted": [6, 5]
+    },
+    {
+      "id": "G",
+      "name": "G",
+      "root": { "string": 6, "fret": 3, "note": "G" },
+      "fingers": [
+        { "string": 6, "fret": 3, "finger": 2 },
+        { "string": 5, "fret": 2, "finger": 1 },
+        { "string": 1, "fret": 3, "finger": 3 }
+      ],
+      "open": [4, 3, 2],
+      "muted": []
+    },
+    {
+      "id": "C",
+      "name": "C",
+      "root": { "string": 5, "fret": 3, "note": "C" },
+      "fingers": [
+        { "string": 5, "fret": 3, "finger": 3 },
+        { "string": 4, "fret": 2, "finger": 2 },
+        { "string": 2, "fret": 1, "finger": 1 }
+      ],
+      "open": [3, 1],
+      "muted": [6]
+    },
+    {
+      "id": "Am",
+      "name": "Am",
+      "root": { "string": 5, "fret": 0, "note": "A" },
+      "fingers": [
+        { "string": 4, "fret": 2, "finger": 2 },
+        { "string": 3, "fret": 2, "finger": 3 },
+        { "string": 2, "fret": 1, "finger": 1 }
+      ],
+      "open": [5, 1],
+      "muted": [6]
+    },
+    {
+      "id": "E",
+      "name": "E",
+      "root": { "string": 6, "fret": 0, "note": "E" },
+      "fingers": [
+        { "string": 5, "fret": 2, "finger": 2 },
+        { "string": 4, "fret": 2, "finger": 3 },
+        { "string": 3, "fret": 1, "finger": 1 }
+      ],
+      "open": [6, 2, 1],
+      "muted": []
+    },
+    {
+      "id": "Dm",
+      "name": "Dm",
+      "root": { "string": 4, "fret": 0, "note": "D" },
+      "fingers": [
+        { "string": 3, "fret": 2, "finger": 2 },
+        { "string": 2, "fret": 3, "finger": 4 },
+        { "string": 1, "fret": 1, "finger": 1 }
+      ],
+      "open": [4],
+      "muted": [6, 5]
+    }
+  ]
+}

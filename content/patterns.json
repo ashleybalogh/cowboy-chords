@@ -1,0 +1,13 @@
+{
+  "_note": "Strum patterns as beat grids. Eight slots to a bar, one per eighth note: 1, 1&, 2, 2&, 3, 3&, 4, 4&. Each slot is \"D\" for a downstrum, \"U\" for an upstrum, or null for a slot where the hand keeps moving but does not hit the strings.",
+
+  "_incomplete": "PRD §3.2 names three patterns: all downs, then D-D-U-U-D-U, then syncopated. Only the first is here. The other two are not written down yet on purpose — placing D-D-U-U-D-U on the grid takes six strums and eight slots and there is more than one way to do it, and \"syncopated\" names a family rather than a pattern. Phase 3 builds the strum trainer and adds both from a source, the same rule the chord fingerings followed. One pattern per week (PRD §3.2), so there is a month before this is short.",
+
+  "patterns": [
+    {
+      "id": "all-downs",
+      "name": "All downs",
+      "grid": ["D", null, "D", null, "D", null, "D", null]
+    }
+  ]
+}
