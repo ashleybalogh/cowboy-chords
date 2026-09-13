@@ -18,6 +18,7 @@ const KEYS = {
   sessions: "cc:sessions",
   settings: "cc:settings",
   fingering: "cc:fingering",
+  week: "cc:week",
 };
 
 /* --- the raw layer ------------------------------------------------------ */
@@ -184,11 +185,29 @@ export function chooseFingering(chordId, alternateId) {
   return next;
 }
 
+/* --- the week -----------------------------------------------------------
+ *
+ * One strum pattern per week, three weeks minimum (PRD §3.2). The rule lives
+ * in week.js; this only remembers the answer. */
+
+export function thisWeek() {
+  const value = read(KEYS.week, null);
+  return value && typeof value === "object" && value.patternId ? value : null;
+}
+
+export function setWeek(week) {
+  write(KEYS.week, week);
+  return week;
+}
+
 /* --- settings ----------------------------------------------------------- */
 
 export function settings() {
   const value = read(KEYS.settings, null);
-  return { tempo: 60, showCapoSongs: false, capoNoteSeen: false, ...(value ?? {}) };
+  // showCapoSongs defaults on (Ash, 2026-09-13): PRD §4 wrote it off because
+  // she did not have a capo, and she is getting one. The §4 note that offers
+  // to sell her the idea has nothing left to do — see the build plan.
+  return { tempo: 60, showCapoSongs: true, ...(value ?? {}) };
 }
 
 export function setSetting(key, value) {
@@ -204,5 +223,6 @@ export function snapshot() {
     sessions: practisedDays(),
     settings: settings(),
     fingering: fingeringChoices(),
+    week: thisWeek(),
   };
 }

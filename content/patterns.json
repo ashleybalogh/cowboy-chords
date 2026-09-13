@@ -1,13 +1,29 @@
 {
   "_note": "Strum patterns as beat grids. Eight slots to a bar, one per eighth note: 1, 1&, 2, 2&, 3, 3&, 4, 4&. Each slot is \"D\" for a downstrum, \"U\" for an upstrum, or null for a slot where the hand keeps moving but does not hit the strings.",
 
-  "_incomplete": "PRD §3.2 names three patterns: all downs, then D-D-U-U-D-U, then syncopated. Only the first is here. The other two are not written down yet on purpose — placing D-D-U-U-D-U on the grid takes six strums and eight slots and there is more than one way to do it, and \"syncopated\" names a family rather than a pattern. Phase 3 builds the strum trainer and adds both from a source, the same rule the chord fingerings followed. One pattern per week (PRD §3.2), so there is a month before this is short.",
+  "_theHandKeepsMoving": "The null slots are not rests. Justin: 'you should keep your strumming hand moving, even if you don't hit any strings... just like a pendulum.' The arrows on screen show what she hits; the hand does the whole bar either way, and the third pattern does not work at all without it.",
+
+  "_source": "justinguitar.com/guitar-lessons/the-strumming-pattern-b1-404 (THE Strumming Pattern — 'Old Faithful'), read 2026-09-13. His three steps are exactly a three-pattern progression: four downs; then up strums on the backbeat after beats 2 and 3; then skip the down on beat 3, keeping the up after it.",
+
+  "_prdDifference": "PRD §3.2 writes the middle pattern as D-D-U-U-D-U, which is Old Faithful with a final up strum on 4&. Justin's lesson never mentions a 4& strum — checked, the page does not contain one — so the app teaches his version and 'syncopated' in the PRD is his third step, where the missing downbeat on 3 is the syncopation. If Ash wants the 4& up, it is one null to change in old-faithful below.",
+
+  "_progression": "One pattern per week, three weeks minimum on each (PRD §3.2). Repetition is the mechanism, so the app does not offer a way to skip ahead.",
 
   "patterns": [
     {
       "id": "all-downs",
-      "name": "All downs",
+      "name": "Four downs",
       "grid": ["D", null, "D", null, "D", null, "D", null]
+    },
+    {
+      "id": "backbeat",
+      "name": "Downs and two ups",
+      "grid": ["D", null, "D", "U", "D", "U", "D", null]
+    },
+    {
+      "id": "old-faithful",
+      "name": "Old faithful",
+      "grid": ["D", null, "D", "U", null, "U", "D", null]
     }
   ]
 }

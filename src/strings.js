@@ -24,7 +24,7 @@ export const strings = {
     start: "Start practice",
     // What actually happens, not a time budget. Two rounds of sixty seconds
     // with a number typed between them (PRD §3.1).
-    startNote: "Two rounds of a minute. Count the changes in your head, and type the number when the minute stops.",
+    startNote: "Two rounds of a minute on chord changes, then three minutes of strumming to a click. About eight minutes.",
 
     // Where she is. Factual, and it makes the one way the app grows visible
     // from the first screen rather than buried in a list.
@@ -98,6 +98,19 @@ export const strings = {
     useThis: "Use this one",
     inUse: "Yours",
     backToDefault: "Back to Justin's",
+  },
+
+  strum: {
+    title: "Strum",
+    thisWeek: (name) => `This week: ${name}`,
+    // Justin's point, and the pattern does not work without it.
+    keepMoving:
+      "Keep your hand moving the whole way through, even on the beats with no arrow. It swings like a pendulum and the strings just happen to be in the way sometimes.",
+    tempoLabel: "Tempo",
+    bpm: (n) => `${n} bpm`,
+    start: "Start the click",
+    stop: "Stop",
+    done: "Done",
   },
 
   soreFingers:

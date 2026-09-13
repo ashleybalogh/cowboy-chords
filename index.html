@@ -339,6 +339,93 @@
         text-align: center;
       }
 
+      /* --- strum --------------------------------------------------------- */
+
+      .strum-grid {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: var(--space-1);
+        max-width: 26rem;
+        margin: var(--space-5) 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .strum-slot {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-1);
+        padding: var(--space-3) 0;
+        border: var(--hair) solid transparent;
+        border-radius: var(--radius);
+      }
+
+      /* The off-beats sit back, so the four beats of the bar read first. */
+      .strum-slot:not(.is-beat) .strum-count {
+        color: var(--nickel-dim);
+      }
+
+      .strum-arrow {
+        font-size: var(--text-xl);
+        line-height: 1;
+        color: var(--pearl-dim);
+      }
+
+      /* A slot with no arrow still shows the hand travelling: the space is
+       * kept, because the pattern does not work if she stops moving. */
+      .strum-slot:not(.is-struck) .strum-arrow::after {
+        content: "·";
+        color: var(--nickel-dim);
+      }
+
+      .strum-count {
+        font-family: var(--font-number);
+        font-size: var(--text-xs);
+        color: var(--pearl-dim);
+      }
+
+      .strum-slot.is-now {
+        border-color: var(--bronze-dim);
+        background: var(--wood-raised);
+      }
+
+      .strum-slot.is-now .strum-arrow {
+        color: var(--bronze);
+      }
+
+      .strum-note {
+        max-width: var(--measure);
+        margin: 0 0 var(--space-6);
+        color: var(--pearl-dim);
+        font-size: var(--text-sm);
+      }
+
+      .strum-tempo-row {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        max-width: var(--measure);
+        margin-bottom: var(--space-5);
+      }
+
+      .strum-tempo {
+        flex: 1;
+        accent-color: var(--bronze);
+      }
+
+      .strum-bpm {
+        min-width: 4.5rem;
+        color: var(--pearl);
+        text-align: right;
+      }
+
+      .strum-left {
+        margin: var(--space-4) 0;
+        color: var(--pearl-dim);
+        font-size: var(--text-lg);
+      }
+
       .changes-stop,
       .changes-count,
       .changes-score + .changes-line + .changes-caption + .action {
