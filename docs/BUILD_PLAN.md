@@ -5,8 +5,7 @@ strictly in order. Do not start a phase until the previous gate passes and Ash
 confirms. One branch per phase, one PR, merged by Ash.
 
 Last updated 2026-09-13, against the PRD's four-stage revision and its
-voice-not-content revision of §6. Phase 0 is merged and live; Phase 1 is open
-as a PR.
+voice-not-content revision of §6. Phases 0 to 3 are merged and live.
 
 ---
 
