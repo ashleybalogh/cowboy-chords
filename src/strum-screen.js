@@ -14,7 +14,7 @@ import { chordBox } from "./chordbox.js";
 import { asHeld } from "./fingerings.js";
 import { strings } from "./strings.js";
 import { metronome, SLOTS_PER_BAR } from "./metronome.js";
-import { patternForToday } from "./week.js";
+import { choosePattern, ladder, patternForToday } from "./week.js";
 import { settings, setSetting, thisWeek, setWeek, today, unlocked, practisedDays } from "./store.js";
 
 const s = strings.strum;
@@ -24,9 +24,11 @@ export const MINUTES = 3;
 export async function mountStrum(root, { onDone } = {}) {
   const { patterns, byId } = await content();
 
-  const week = patternForToday(thisWeek(), patterns, today());
+  // The nudge. It moves her on by itself, and she can overrule it either way
+  // from the ladder below — the timing is a guess and she is not.
+  let week = patternForToday(thisWeek(), patterns, today(), practisedDays());
   setWeek(week);
-  const pattern = patterns.find((p) => p.id === week.patternId) ?? patterns[0];
+  let pattern = patterns.find((p) => p.id === week.patternId) ?? patterns[0];
 
   let bpm = settings().tempo;
   let clock = null;
@@ -87,6 +89,63 @@ export async function mountStrum(root, { onDone } = {}) {
 
   const keepMoving = para(s.keepMoving, "strum-note");
 
+  /* "Old Faithful" names two different patterns in the wild. Justin's is five
+   * strums; the version she will meet in most Ultimate Guitar comments — and
+   * the song links go straight there — has an extra up strum on 4&. Saying so
+   * once means the app disagreeing with a tab page does not read as the app
+   * being wrong. */
+  const variation = pattern.id === "old-faithful" ? para(s.oldFaithfulVaries, "strum-note") : null;
+
+  /* The ladder. Where she is, and every rung tappable in both directions.
+   *
+   * She holds this lever rather than Ash: he does not play, so the only
+   * override cannot live in devtools. Retreating is what makes jumping ahead
+   * safe — if a pattern is too hard it costs one tap to go back, and she will
+   * work that out in a session. */
+  const rungs = document.createElement("ol");
+  rungs.className = "ladder";
+  for (const step of ladder(patterns, week)) {
+    const li = document.createElement("li");
+    li.className = step.here ? "ladder-step is-here" : "ladder-step";
+
+    const pick = document.createElement("button");
+    pick.type = "button";
+    pick.className = "ladder-pick";
+    pick.disabled = step.here;
+
+    const label = document.createElement("span");
+    label.className = "ladder-name";
+    label.textContent = step.name;
+
+    const shape = document.createElement("span");
+    shape.className = "ladder-shape";
+    shape.setAttribute("aria-hidden", "true");
+    shape.textContent = step.grid.map((x) => (x === "D" ? "↓" : x === "U" ? "↑" : "·")).join(" ");
+
+    pick.append(label, shape);
+    if (step.here) {
+      const mark = document.createElement("span");
+      mark.className = "ladder-here label";
+      mark.textContent = s.youreHere;
+      pick.append(mark);
+    }
+
+    pick.addEventListener("click", () => {
+      stop();
+      setWeek(choosePattern(step.id, today()));
+      mountStrum(root, { onDone });
+    });
+
+    li.append(pick);
+    rungs.append(li);
+  }
+
+  const ladderTitle = document.createElement("p");
+  ladderTitle.className = "label";
+  ladderTitle.textContent = s.ladderTitle;
+
+  const ladderNote = para(s.ladderNote, "strum-note");
+
   const tempo = document.createElement("input");
   tempo.type = "range";
   tempo.className = "strum-tempo";
@@ -134,7 +193,21 @@ export async function mountStrum(root, { onDone } = {}) {
 
   action.addEventListener("click", () => (clock ? stop() : play()));
 
-  root.replaceChildren(what, holdThis, name, grid, keepMoving, tempoRow, action, left, done);
+  root.replaceChildren(
+    what,
+    holdThis,
+    name,
+    grid,
+    keepMoving,
+    ...(variation ? [variation] : []),
+    tempoRow,
+    action,
+    left,
+    ladderTitle,
+    ladderNote,
+    rungs,
+    done,
+  );
 
   /* --- running ---------------------------------------------------------- */
 

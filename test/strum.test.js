@@ -9,7 +9,14 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 import { beatsInWindow, slotSeconds, SLOTS_PER_BAR } from "../src/metronome.js";
-import { DAYS_PER_PATTERN, daysOnPattern, patternForToday } from "../src/week.js";
+import {
+  DAYS_PER_PATTERN,
+  SESSIONS_PER_PATTERN,
+  choosePattern,
+  daysOnPattern,
+  ladder,
+  patternForToday,
+} from "../src/week.js";
 
 const patterns = JSON.parse(
   await readFile(new URL("../content/patterns.json", import.meta.url), "utf8"),
@@ -108,25 +115,88 @@ test("a first visit starts at the beginning", () => {
   });
 });
 
-test("the pattern does not change for three weeks", () => {
+/** Days she practised, starting the day the pattern did. */
+const sessions = (from, count) => {
+  const out = [];
+  const d = new Date(`${from}T12:00:00`);
+  for (let i = 0; i < count; i++) {
+    out.push(d.toISOString().slice(0, 10));
+    d.setDate(d.getDate() + 1);
+  }
+  return out;
+};
+
+test("the pattern waits for both the days and the sessions", () => {
   const week = { patternId: "all-downs", since: "2026-09-01" };
+  const played = sessions("2026-09-01", 20);
   // Repetition is the mechanism (PRD §3.2), so nothing moves early.
-  assert.deepEqual(patternForToday(week, patterns, "2026-09-14"), week);
-  assert.deepEqual(patternForToday(week, patterns, "2026-09-21"), week);
-  assert.equal(patternForToday(week, patterns, "2026-09-22").patternId, "backbeat");
+  assert.deepEqual(patternForToday(week, patterns, "2026-09-14", played), week);
+  assert.deepEqual(patternForToday(week, patterns, "2026-09-21", played), week);
+  assert.equal(patternForToday(week, patterns, "2026-09-22", played).patternId, "backbeat");
+});
+
+test("a fortnight off does not promote her past something she has not played", () => {
+  // The whole reason the nudge counts sessions rather than the calendar:
+  // three weeks on a wall clock is not three weeks of practice.
+  const week = { patternId: "all-downs", since: "2026-09-01" };
+  assert.deepEqual(
+    patternForToday(week, patterns, "2026-10-30", sessions("2026-09-01", 3)),
+    week,
+    "sixty days elapsed, three days played, so she stays",
+  );
+  assert.equal(SESSIONS_PER_PATTERN, 10);
+});
+
+test("sessions before this pattern started do not count toward it", () => {
+  const week = { patternId: "all-downs", since: "2026-09-20" };
+  const beforeAndAfter = [...sessions("2026-08-01", 30), ...sessions("2026-09-20", 4)];
+  assert.deepEqual(patternForToday(week, patterns, "2026-10-20", beforeAndAfter), week);
+});
+
+/* --- the ladder --------------------------------------------------------- */
+
+test("the ladder is every pattern in order, with hers marked", () => {
+  const rungs = ladder(patterns, { patternId: "backbeat", since: "2026-09-13" });
+  assert.deepEqual(rungs.map((r) => r.id), ["all-downs", "backbeat", "old-faithful"]);
+  assert.deepEqual(rungs.map((r) => r.here), [false, true, false]);
+  assert.deepEqual(rungs.map((r) => r.step), [1, 2, 3]);
+});
+
+test("she can move to any rung, and the clock restarts where she lands", () => {
+  // Retreating is what makes advancing safe: if she jumps to the hard one and
+  // it is too hard, going back costs one tap and nothing is lost.
+  assert.deepEqual(choosePattern("old-faithful", "2026-09-13"), {
+    patternId: "old-faithful",
+    since: "2026-09-13",
+  });
+  assert.deepEqual(choosePattern("all-downs", "2026-09-14"), {
+    patternId: "all-downs",
+    since: "2026-09-14",
+  });
+});
+
+test("the nudge never immediately undoes her choice", () => {
+  // She drops back to the first pattern after months of practice. The nudge
+  // must not shove her forward again on the same visit.
+  const chosen = choosePattern("all-downs", "2026-09-13");
+  assert.deepEqual(patternForToday(chosen, patterns, "2026-09-13", sessions("2026-01-01", 200)), chosen);
 });
 
 test("the new pattern is dated from the change, not from the calendar", () => {
-  // However late she comes back to it, she gets three weeks of it.
+  // However late she comes back to it, she gets a full run at the new one.
   const week = { patternId: "all-downs", since: "2026-09-01" };
-  const next = patternForToday(week, patterns, "2026-11-30");
+  const next = patternForToday(week, patterns, "2026-11-30", sessions("2026-09-01", 40));
   assert.equal(next.patternId, "backbeat");
   assert.equal(next.since, "2026-11-30");
 });
 
 test("the last pattern is where she stays", () => {
+  // With the sessions supplied, so this tests the end of the ladder rather
+  // than passing because the nudge never fired.
   const week = { patternId: "old-faithful", since: "2026-01-01" };
-  assert.deepEqual(patternForToday(week, patterns, "2026-09-13"), week);
+  const played = sessions("2026-01-01", 200);
+  assert.ok(played.length > SESSIONS_PER_PATTERN, "the nudge would otherwise fire");
+  assert.deepEqual(patternForToday(week, patterns, "2026-09-13", played), week);
 });
 
 test("a pattern that has been renamed in the file starts her again rather than breaking", () => {
