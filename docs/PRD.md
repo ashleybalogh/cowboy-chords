@@ -159,9 +159,12 @@ Unlock order for chords: **Em → A → D → G → C → Am → E → Dm**. Em 
 because the change between them is physically easy and they unlock songs
 immediately. F and barre chords are explicitly out of v1.
 
-**Capo.** She doesn't have one. The `capo` field exists anyway (`null` or fret
-number), and songs requiring a capo are stored but hidden behind a settings
-toggle, default off. When the toggle is on they appear normally.
+**Capo.** ~~She doesn't have one.~~ **Amended 2026-09-13: she is getting one,
+so the toggle defaults ON and capo songs are in from the start.** The `capo`
+field is as described (`null` or fret number) and the toggle stays — it is the
+honest way to say "show me only what I can play right now" if a capo ever goes
+missing — but it is no longer hiding anything by default. The one-time note
+below has nothing left to do and should not be built.
 
 Build this now rather than later, because a capo is the cheapest unlock in the
 whole project — roughly ten dollars, and it multiplies the playable song list
@@ -304,22 +307,27 @@ Each step should be independently runnable in Chrome.
 Do not build these. Revisit only if she's still opening the app after a month
 of regular use — and if she isn't, none of it would have helped.
 
-- **Microphone features — reopened as a question, 2026-09-13.** A tuner
-  (monophonic pitch detection via YIN is reliable and would work), and a
-  string-by-string chord check where she arpeggiates and each string is
-  marked. Both were cut because the guitar has a tuner and a person could
-  check her chords — and §5.3 says so out loud, "for the first month a human
-  does it better anyway". She uses the app alone, so that half of the
-  reasoning does not hold and the string check is back on the table.
+- **Microphone features.** A tuner (monophonic pitch detection via YIN is
+  reliable and would work), and a string-by-string chord check where she
+  arpeggiates and each string is marked. Both were cut because the guitar has
+  a tuner and a person could check her chords — §5.3 says so out loud, "for
+  the first month a human does it better anyway".
 
-  It is not the next thing to build. The gap §5.3 left was that the
-  instruction stopped after "look at which finger is leaning on it"; the app
-  now says what to look for on each chord, which is what a person in the room
-  would have said. Before the microphone becomes a phase, restate the
-  question: she doesn't need to know the note is *right*, she needs to know
-  the string *sounded*, and dead-versus-ringing is amplitude rather than
-  pitch. Prove that on a real steel-string before planning around it, and
-  decide where the permission prompt goes, because §5 bans one on first run.
+  Reopened on 2026-09-13 on the theory that there was no such person, and
+  **closed again the same day: Ash is always available to listen.** The
+  premise was wrong, so the original reasoning stands untouched. Recorded
+  here so nobody reopens it a third time on the same mistake — being
+  deliberately hands-off about whether she opens the app is not the same as
+  being unavailable to hear a dead string.
+
+  Two things from that detour are worth keeping if this is ever revisited.
+  The gap §5.3 actually left was that the instruction stopped after "look at
+  which finger is leaning on it"; each chord now says what to look for, which
+  is the thing a person in the room would have said, and it cost nothing. And
+  the question is the wrong shape as written above: she doesn't need to know
+  the note is *right*, she needs to know the string *sounded*, and
+  dead-versus-ringing is amplitude rather than pitch — a far easier problem
+  than YIN mid-arpeggio on a ringing steel-string.
 
   Full polyphonic chord recognition stays out regardless — a false "that's
   wrong" to a kid who played it right is worse than no feedback.

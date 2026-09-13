@@ -69,18 +69,42 @@ someone who thinks they are tidying up:
   width of the low E, is still legible with dots sitting on it at the size the
   drill renders. Verified at that size in Phase 1's gate.
 
-**Her songs, from her** (Ash, 2026-09-13). Phase 4 seeds from these, not from
-a list of correct beginner songs:
+**Her artists, from her** (Ash, 2026-09-13). Phase 4 builds `songs.json` from
+these, not from a list of correct beginner songs. A song she chose will
+outperform a song that was correct.
 
-| playable on the eight open chords | |
-|---|---|
-| The Head and the Heart | Rivers and Roads, Lost in My Mind, Down in the Valley |
-| Nirvana, the acoustic side | About a Girl, Polly, Something in the Way |
+**Phase 4, now:** Nirvana, Lord Huron, The Head and the Heart, Olivia Rodrigo,
+Katy Perry, Green Day, The Cranberries, Noah Kahan. Gregory Alan Isakov is
+worth adding in the Head and the Heart lane — open chords with a capo, and the
+one artist on Ash's side of the taste that overlaps cleanly with hers.
+
+**Start with Green Day's "Good Riddance"**: open chords, no capo, and it
+bridges what she likes to what she can play today.
+
+**Held for Phase 8**, once power chords land: Blink-182, Taking Back Sunday,
+Pearl Jam, Radiohead.
+
+Rules for building the list:
+
+- **Check every chord against Ultimate Guitar. Nothing from memory.** Same
+  rule the fingerings followed, and for the same reason: a song listed as
+  playable that turns out to need F is worse than one left out.
+- **Drop anything needing F or a barre**, however well it fits her taste.
+- **Capo songs are in.** `showCapoSongs` defaults on from now (the capo is
+  being bought), which changes PRD §4 — see below.
 
 Folk built on G, C, D, Em and Am is exactly the unlock order, and the
 *Unplugged* recordings give her a version that sounds like what she is
 actually doing — which is the §1 problem, solved by choice of song rather than
 by anything the app does.
+
+**The capo default flips, and takes a feature with it** (Ash, 2026-09-13).
+PRD §4 hid capo songs behind a toggle defaulting off, because she did not have
+a capo, and asked the app to surface the ten-pound argument once when hidden
+songs outnumber visible ones. She is getting one, so the toggle defaults on
+and **that one-time note has nothing left to do**. Phase 4 should not build
+it. The toggle itself stays: it costs nothing and it is the honest way to say
+"show me only what I can play right now" if a capo ever goes missing.
 
 **Power chords are the first thing in v2, not a someday item** (Ash,
 2026-09-13). Blink-182 and Taking Back Sunday are the other half of her taste
@@ -197,7 +221,7 @@ cc:schema      integer, so a later shape change can migrate rather than wipe
 cc:unlocked    ["Em","A"]              chords she can hold
 cc:scores      [{pair:"Em-A", count:11, at:"2026-09-13T18:02:00Z"}, ...]
 cc:sessions    ["2026-09-13", ...]     dates only, for "14 of the last 30 days"
-cc:settings    {tempo:60, showCapoSongs:false, capoNoteSeen:false}
+cc:settings    {tempo:60, showCapoSongs:true}   showCapoSongs defaults on: the capo is bought
 cc:week        {patternId:"all-downs", since:"2026-09-13"}
 cc:firstRun    done, so the chord picker asks once and never again
 ```
@@ -324,10 +348,15 @@ PRD §8.3.
 - Scheduled on the Web Audio clock with a lookahead, never `setInterval`.
   Output only; no permission prompt of any kind (PRD §3.2, §5).
 
+- **The session grows a stage; the home screen does not grow a button.**
+  Start practice now runs Changes then Strum, in PRD §3's order. A second tile
+  would have broken the home rule the day after it was written, and this way
+  Phase 6 assembles what is already there rather than replacing it.
+
 **Gate.** Three minutes at 60 bpm with no audible drift against a phone
 metronome, and the lit beat still agreeing with the click at the end. Tests
-cover the beat-time maths at 60, 80 and 120 bpm. Verified in Chrome on her
-laptop, with sound.
+cover the beat-time maths. Verified in Chrome on her laptop, **with sound** —
+which is the half of this gate only Ash can close.
 
 ## Phase 4 — songs
 
@@ -344,10 +373,9 @@ PRD §8.4.
   A song listed as playable that turns out to need F is worse than one left
   out.
 - A song appears only when every chord it needs is unlocked.
-- Capo songs stored, hidden behind a settings toggle, default off (PRD §4).
-- When hidden songs outnumber visible ones, one factual line about what a
-  capo costs and what it unlocks. Once, tracked by `cc:settings.capoNoteSeen`,
-  never again.
+- Capo songs are shown: the toggle stays but defaults on (PRD §4 as amended
+  2026-09-13). **Do not build the one-time capo note.** It existed to make the
+  ten-pound argument, and the capo is bought.
 
 **Gate.** With only Em and A unlocked, the list holds only songs playable
 with Em and A, and each link opens UG's results in a new tab. Tests cover
