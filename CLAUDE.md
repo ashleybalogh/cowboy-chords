@@ -103,6 +103,12 @@ exists and why the app is also published to Pages — see the build plan.
 
 ## Things that cost time to learn
 
+- **A push takes up to ten minutes to show in a tab that already had the page
+  open.** GitHub Pages sends `Cache-Control: max-age=600` on everything and
+  does not let you change it. Nothing is broken; hard-refresh with
+  Ctrl+Shift+R to see a change immediately. Check the deploy with
+  `gh run list` and the live files with a `fetch` before believing otherwise —
+  twice now the site was current and the browser was not.
 - **Pages serves from `/cowboy-chords/`, not from `/`.** Every path in the app
   must be relative (`src/theme.css`, `content/chords.json`), never
   root-absolute (`/src/theme.css`), or it works at localhost and 404s for her.
