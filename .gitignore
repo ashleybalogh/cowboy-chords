@@ -1,0 +1,14 @@
+# The uncle's letter. It is the app's voice (PRD §6) and it is a private letter
+# from a person to his niece. It does not get committed, because this repo is
+# public so that GitHub Pages can serve the app. docs/DESIGN_BRIEF.md points at
+# this file and quotes none of it.
+docs/voice-sample.local.md
+
+# Anything else marked local stays local, same reasoning.
+*.local.md
+*.local.json
+
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
