@@ -136,3 +136,42 @@ test("the snapshot names every key, so Phase 7's export cannot miss one", () => 
     "unlocked",
   ]);
 });
+
+/* --- a store written by newer code than the code now running ------------- */
+
+test("a store from a newer version is read but never written to", () => {
+  // The one thing a stale service worker cannot be allowed to paper over: old
+  // code writing into a shape it does not understand. Reads still work.
+  localStorage.setItem("cc:schema", "2");
+  localStorage.setItem("cc:unlocked", '["Em","A"]');
+  localStorage.setItem("cc:scores", '[{"pair":"Em-A","count":12,"at":"2026-09-13T00:00:00Z"}]');
+
+  const { tooNew, schema } = store.open();
+  assert.equal(tooNew, true);
+  assert.equal(schema, 2);
+  assert.equal(store.isReadOnly(), true);
+
+  assert.deepEqual(store.unlocked(), ["Em", "A"], "her data still reads");
+  assert.equal(store.scoresFor("Em-A").length, 1);
+
+  store.addScore("Em-A", 99);
+  store.unlock("D");
+  assert.equal(store.scoresFor("Em-A").length, 1, "and nothing was written over it");
+  assert.deepEqual(store.unlocked(), ["Em", "A"]);
+});
+
+test("the same schema, or an older one, writes normally", () => {
+  localStorage.setItem("cc:schema", String(store.SCHEMA));
+  const { tooNew } = store.open();
+  assert.equal(tooNew, false);
+  store.unlock("Em");
+  assert.deepEqual(store.unlocked(), ["Em"]);
+});
+
+test("a hand-mangled schema does not lock her out of her own app", () => {
+  localStorage.setItem("cc:schema", '"banana"');
+  const { tooNew } = store.open();
+  assert.equal(tooNew, false);
+  store.unlock("Em");
+  assert.deepEqual(store.unlocked(), ["Em"]);
+});

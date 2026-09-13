@@ -1,12 +1,15 @@
 /* Two screens and a way between them.
  *
- * The one-button session loop that runs all four stages in order is Phase 6.
- * Until then the drill and the chord list are reachable on their own, which is
- * what "each step independently runnable" means. */
+ * Home answers two questions, in this order and with nothing else on it:
+ * what now — one button — and where am I — one line. It is not a menu. The
+ * one-button session loop that runs all four stages is Phase 6, and it
+ * replaces what this button does rather than what this screen is. */
 
+import { content } from "./content.js";
 import { strings } from "./strings.js";
-import { open, practisedDays } from "./store.js";
+import { open, practisedDays, unlocked } from "./store.js";
 import { daysPractised } from "./drill.js";
+import { listChords, showDaysCount, standing } from "./progress.js";
 import { mountChords } from "./chords-screen.js";
 import { mountChanges } from "./changes-screen.js";
 
@@ -16,22 +19,47 @@ export function start(root) {
   open();
   home();
 
-  function home() {
-    const nav = document.createElement("nav");
-    nav.className = "home";
+  async function home() {
+    setTitle(s.title);
 
-    nav.append(
-      tile(s.changes, s.changesNote, () => screen(strings.changes.title, (el) => mountChanges(el, { onDone: home }))),
-      tile(s.chords, s.chordsNote, () => screen(strings.chords.title, (el) => mountChords(el, { onChange: () => {} }))),
+    const go = document.createElement("button");
+    go.type = "button";
+    go.className = "start";
+    go.append(span("start-name", s.start), span("start-note", s.startNote));
+    go.addEventListener("click", () =>
+      screen(strings.changes.title, (el) => mountChanges(el, { onDone: home })),
     );
 
-    const days = daysPractised(practisedDays());
-    const count = document.createElement("p");
-    count.className = "home-days label";
-    count.textContent = days === 0 ? s.neverYet : s.daysPractised(days);
+    // Where she is, and the way into the only thing she controls. The line is
+    // the route to the chord list rather than there being a third thing on
+    // the screen competing with the button.
+    const where = document.createElement("button");
+    where.type = "button";
+    where.className = "standing";
+    where.textContent = "";
+    where.addEventListener("click", () =>
+      screen(strings.chords.title, (el) => mountChords(el, { onChange: () => {} })),
+    );
 
-    setTitle(s.title);
-    root.replaceChildren(nav, count);
+    root.replaceChildren(go, where);
+
+    const { unlockOrder } = await content();
+    const { held, next, all } = standing(unlockOrder, unlocked());
+    where.textContent =
+      held.length === 0
+        ? s.standingNone
+        : all
+          ? s.standingAll(listChords(held))
+          : s.standing(listChords(held), next);
+
+    const days = practisedDays();
+    const count = daysPractised(days);
+    if (showDaysCount(days, count)) {
+      const line = document.createElement("p");
+      line.className = "home-days label";
+      line.textContent = s.daysPractised(count);
+      root.append(line);
+    }
   }
 
   function screen(title, mount) {
@@ -46,24 +74,13 @@ export function start(root) {
     root.replaceChildren(back, body);
     mount(body);
   }
+}
 
-  function tile(name, note, onClick) {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "home-tile";
-
-    const heading = document.createElement("span");
-    heading.className = "home-tile-name";
-    heading.textContent = name;
-
-    const sub = document.createElement("span");
-    sub.className = "home-tile-note";
-    sub.textContent = note;
-
-    b.append(heading, sub);
-    b.addEventListener("click", onClick);
-    return b;
-  }
+function span(className, text) {
+  const el = document.createElement("span");
+  el.className = className;
+  el.textContent = text;
+  return el;
 }
 
 function setTitle(text) {

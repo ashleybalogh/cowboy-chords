@@ -7,6 +7,8 @@
  * default, because a thrown error here would take the whole app down and the
  * cost of a lost setting is a shrug. */
 
+import { localDay } from "./days.js";
+
 export const SCHEMA = 1;
 
 const KEYS = {
@@ -31,6 +33,10 @@ function read(key, fallback) {
 }
 
 function write(key, value) {
+  // A store written by a newer version of the app is not written to by this
+  // one. See open(): the alternative is quietly corrupting a shape this code
+  // does not understand.
+  if (readOnly && key !== KEYS.schema) return false;
   try {
     localStorage.setItem(key, JSON.stringify(value));
     return true;
@@ -41,13 +47,46 @@ function write(key, value) {
   }
 }
 
-/** Called once at startup. Nothing to migrate yet; the version is written from
- *  the first phase that stores anything so that a later shape change can
- *  migrate rather than wipe her scores. */
+/* A store written by newer code than the code now running. This is the one
+ * thing a stale cache cannot be allowed to paper over: everything else in the
+ * app can be a session out of date and nobody notices, but code that does not
+ * understand the shape it is reading will quietly write nonsense into it.
+ * Reads still work — they tolerate anything — but writes stop. */
+let readOnly = false;
+
+export function isReadOnly() {
+  return readOnly;
+}
+
+/** Called once at startup. The version is written from the first phase that
+ *  stores anything, so a later shape change can migrate rather than wipe her
+ *  scores.
+ *
+ *  @returns {{schema: number, fresh: boolean, tooNew: boolean}} tooNew means
+ *    the store was written by a later version of the app than this one — see
+ *    the note above, and the service worker note in the build plan. */
 export function open() {
   const found = read(KEYS.schema, null);
-  if (found === null) write(KEYS.schema, SCHEMA);
-  return { schema: found ?? SCHEMA, fresh: found === null };
+  if (found === null) {
+    write(KEYS.schema, SCHEMA);
+    return { schema: SCHEMA, fresh: true, tooNew: false };
+  }
+
+  const schema = Number(found);
+  if (!Number.isFinite(schema)) {
+    // Someone hand-edited it, or it never was a number. Treat the store as
+    // this version's and carry on; the reads all tolerate junk anyway.
+    write(KEYS.schema, SCHEMA);
+    return { schema: SCHEMA, fresh: false, tooNew: false };
+  }
+
+  readOnly = schema > SCHEMA;
+  return { schema, fresh: false, tooNew: readOnly };
+}
+
+/** Migrations go here when there is a second schema. Nothing to do at 1. */
+export function migrate() {
+  return SCHEMA;
 }
 
 /* --- what she can hold -------------------------------------------------- */
@@ -118,11 +157,9 @@ export function practisedDays() {
   return Array.isArray(value) ? value : [];
 }
 
-export function today(date = new Date()) {
-  // Her local day, not UTC: a 9pm practice should not land on tomorrow.
-  const pad = (n) => String(n).padStart(2, "0");
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-}
+/** Her local day, not UTC: a 9pm practice should not land on tomorrow, and a
+ *  half-past-midnight one should still count as tonight. See days.js. */
+export const today = localDay;
 
 /* --- which fingering she uses ------------------------------------------- */
 

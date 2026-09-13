@@ -6,6 +6,8 @@
  * hardest; a countdown timer and a note of the number is the whole apparatus.
  * justinguitar.com/guitar-lessons/one-minute-changes-exercise-b1-110 */
 
+import { daysAgo, localDay } from "./days.js";
+
 export const ROUND_SECONDS = 60;
 export const ROUNDS = 2;
 export const SPARKLINE_WINDOW = 10;
@@ -79,11 +81,13 @@ export function parseCount(input) {
   return n >= 0 && n <= 999 ? n : null;
 }
 
-/** "Played 14 of the last 30 days" — factual, never a streak (PRD §6). */
+/** "Played 14 of the last 30 days" — factual, never a streak (PRD §6).
+ *
+ *  Local days throughout: the store writes the day she was in, and comparing
+ *  those against UTC dates would drop a practice at half past midnight in
+ *  London and count one at 8pm in New York as tomorrow's. */
 export function daysPractised(days, windowDays = 30, now = new Date()) {
-  const cutoff = new Date(now);
-  cutoff.setDate(cutoff.getDate() - (windowDays - 1));
-  const from = cutoff.toISOString().slice(0, 10);
-  const to = now.toISOString().slice(0, 10);
+  const from = daysAgo(windowDays - 1, now);
+  const to = localDay(now);
   return days.filter((d) => d >= from && d <= to).length;
 }

@@ -149,6 +149,30 @@ stacks are system faces chosen deliberately, in this order of preference.
 The score is the largest type in the app. It is a number on wood, and nothing
 around it comments on it.
 
+## 3a. What the home screen is for
+
+**It answers "what now" and "where am I", in that order, and there is no third
+thing on it.**
+
+"What now" is one button, and it is the most prominent thing on the screen —
+PRD §3 is explicit that there is one button and it says *Start practice*. Not
+two cards of equal weight: a choice between equals is a decision she has to
+make before she has played a note, and neither option is obviously right.
+Anything else that has to be reachable is quiet, secondary, and ideally part
+of answering the second question rather than an item of its own.
+
+"Where am I" is one line, factual, and it is where the progression lives:
+*Em and A. D when you're ready.* The only mechanism by which this app grows is
+her saying she can hold a new chord, and that has to be visible from the first
+screen rather than buried in a list. It never ranks, scores or congratulates.
+
+A number only goes on this screen when it means something. "Played 1 of the
+last 30 days" on day one reads as 1/30 — a percentage-complete framing
+arriving by accident, and the one thing §6 rules out. The days line stays
+hidden until she has had the app long enough for the window to be about her,
+and a count of zero is never shown at all: it is the only number here that
+could read as a reproach.
+
 ## 4. Structure and restraint
 
 - Radius is near zero. Fret wire and nut edges are hard; the guitar's curves

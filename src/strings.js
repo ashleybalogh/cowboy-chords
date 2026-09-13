@@ -16,14 +16,25 @@
 export const strings = {
   appName: "Cowboy Chords",
 
+  /* Home answers two questions and no more: what now, then where am I.
+   * One button for the first, one line for the second. */
   home: {
     title: "Cowboy Chords",
-    changes: "Changes",
-    changesNote: "Two minutes. One pair of chords, and how many times you can get between them.",
-    chords: "Chords",
-    chordsNote: "The shapes, and which ones you can hold.",
-    daysPractised: (n) => (n === 1 ? "Played 1 of the last 30 days" : `Played ${n} of the last 30 days`),
-    neverYet: "Nothing on the board yet",
+
+    start: "Start practice",
+    // What actually happens, not a time budget. Two rounds of sixty seconds
+    // with a number typed between them (PRD §3.1).
+    startNote: "Two rounds of a minute. Count the changes in your head, and type the number when the minute stops.",
+
+    // Where she is. Factual, and it makes the one way the app grows visible
+    // from the first screen rather than buried in a list.
+    // A dash rather than a full stop: "Em and A. D when you're ready" puts a
+    // chord name straight after a stop and reads as an abbreviation.
+    standing: (held, next) => `${held} — ${next} when you're ready.`,
+    standingAll: (held) => `${held}. That's all of them.`,
+    standingNone: "No chords yet — say which ones you can hold.",
+
+    daysPractised: (n) => `Played ${n} of the last 30 days`,
   },
 
   chords: {
