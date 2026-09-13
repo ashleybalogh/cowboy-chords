@@ -52,7 +52,12 @@ thing and gets her to a real song fast.
   change content. Ash edits JSON and refreshes.
 - Decisions and state go in `docs/`, not in Claude Code memory.
 - Before writing code in a new phase, propose the plan and wait for approval.
-- PRs under ~400 lines; one phase per branch; branches cut from a freshly
+- **PRs under ~400 lines of hand-written code.** Generated data and tests do
+  not count toward it: the number exists to cap how much there is to *read*,
+  and counting `pairs.json` and a test file against it made the rule measure
+  the wrong thing three phases running. Every PR names its reviewable
+  surface — the files worth actually reading — at the top of the description.
+- One phase per branch; branches cut from a freshly
   pulled `origin/main`. Ash merges on GitHub — that is her review step. Claude
   never merges. Once a PR is called ready it gets no more commits.
 

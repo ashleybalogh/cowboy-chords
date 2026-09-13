@@ -124,6 +124,14 @@ both above the threshold.
 can be smaller, because it is a reminder of a shape she already knows rather
 than the thing she learns it from.
 
+**And the layout may not violate the floor to fit.** Two boxes at drill size
+plus a timer come to 668px, which is a full window on a laptop — but a narrow
+window, a split screen, or her reading Ultimate Guitar alongside the app all
+take that away. **Below the width where two boxes fit side by side, they
+stack. They never shrink past the floor.** A floor a layout can quietly cross
+is not a floor, and shrinking is exactly what a flex row does by default
+unless it is told to wrap instead.
+
 Drawn once as one component from `chords.json`, used everywhere, never
 reimplemented. Chord boxes are not tab and the app never conflates them.
 

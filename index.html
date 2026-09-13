@@ -25,6 +25,86 @@
         text-transform: uppercase;
       }
 
+      /* --- buttons ------------------------------------------------------ */
+
+      .action {
+        padding: var(--space-3) var(--space-5);
+        border: var(--hair) solid var(--nickel-dim);
+        border-radius: var(--radius);
+        background: var(--wood-raised);
+        color: var(--pearl);
+        font-family: var(--font-label);
+        font-size: var(--text-sm);
+        font-weight: var(--weight-label);
+        letter-spacing: var(--tracking-label);
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .action:hover {
+        border-color: var(--nickel);
+      }
+
+      .action.is-quiet {
+        background: none;
+        color: var(--pearl-dim);
+      }
+
+      .chord-back {
+        display: block;
+        margin-bottom: var(--space-5);
+        padding: 0;
+        border: 0;
+        background: none;
+        color: var(--pearl-dim);
+        cursor: pointer;
+      }
+
+      /* --- home --------------------------------------------------------- */
+
+      .home {
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .home-tile {
+        display: block;
+        width: 100%;
+        padding: var(--space-5);
+        border: var(--hair) solid var(--nickel-dim);
+        border-radius: var(--radius);
+        background: var(--wood-raised);
+        color: inherit;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .home-tile:hover {
+        border-color: var(--nickel);
+      }
+
+      .home-tile-name {
+        display: block;
+        font-family: var(--font-label);
+        font-size: var(--text-lg);
+        font-weight: var(--weight-label);
+        letter-spacing: var(--tracking-label);
+        text-transform: uppercase;
+      }
+
+      .home-tile-note {
+        display: block;
+        margin-top: var(--space-1);
+        color: var(--pearl-dim);
+        font-size: var(--text-sm);
+      }
+
+      .home-days {
+        margin-top: var(--space-6);
+      }
+
+      /* --- the chord list ----------------------------------------------- */
+
       .chord-list-intro {
         max-width: var(--measure);
         margin: 0 0 var(--space-6);
@@ -53,6 +133,12 @@
         cursor: pointer;
       }
 
+      /* Locked is quieter, never crossed out or greyed to unreadable: seeing
+       * what is coming is not the same as being told you can't have it. */
+      .chord-cell.is-locked {
+        opacity: 0.45;
+      }
+
       .chord-cell-name {
         font-family: var(--font-label);
         font-size: var(--text-sm);
@@ -62,15 +148,7 @@
         color: var(--pearl);
       }
 
-      .chord-back {
-        display: block;
-        margin-bottom: var(--space-5);
-        padding: 0;
-        border: 0;
-        background: none;
-        color: var(--pearl-dim);
-        cursor: pointer;
-      }
+      /* --- one chord up close ------------------------------------------- */
 
       .chord-detail-name {
         margin: 0 0 var(--space-5);
@@ -83,7 +161,15 @@
       }
 
       .chord-detail-box {
+        margin-bottom: var(--space-5);
+      }
+
+      .chord-hold {
         margin-bottom: var(--space-6);
+      }
+
+      .chord-hold p {
+        margin-top: var(--space-2);
       }
 
       .chord-detail p {
@@ -102,6 +188,141 @@
       .chord-detail-quiet {
         font-size: var(--text-sm);
       }
+
+      .chord-alternates {
+        margin: var(--space-6) 0;
+        padding-top: var(--space-5);
+        border-top: var(--hair) solid var(--nickel-dim);
+      }
+
+      .chord-alternates-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-5);
+        margin: var(--space-4) 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .chord-alternate {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-2);
+        max-width: 150px;
+      }
+
+      /* The labels wrap to different depths, so the controls are pinned to the
+       * bottom rather than left on ragged baselines. */
+      .chord-alternate > .action,
+      .chord-alternate-mark {
+        margin-top: auto;
+      }
+
+      .chord-alternate-label {
+        margin: 0;
+        color: var(--pearl-dim);
+        font-size: var(--text-sm);
+      }
+
+      .chord-alternate-mark {
+        margin: 0;
+        color: var(--bronze);
+      }
+
+      /* --- the drill ----------------------------------------------------- */
+
+      /* Two boxes side by side, and never smaller than the 150px floor the
+       * gauges need: below the width where both fit, they stack. */
+      .changes-boxes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-6);
+        justify-content: center;
+        margin: var(--space-5) 0 var(--space-6);
+      }
+
+      .changes-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .changes-note {
+        max-width: var(--measure);
+        margin: 0 auto var(--space-5);
+        color: var(--pearl-dim);
+        text-align: center;
+      }
+
+      .changes-clock {
+        margin: 0 0 var(--space-5);
+        color: var(--bronze);
+        font-size: var(--text-score);
+        line-height: 1;
+        text-align: center;
+      }
+
+      .changes-count {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-3);
+      }
+
+      .changes-count label {
+        width: 100%;
+        text-align: center;
+      }
+
+      .changes-input {
+        width: 5rem;
+        padding: var(--space-2) var(--space-3);
+        border: var(--hair) solid var(--nickel-dim);
+        border-radius: var(--radius);
+        background: var(--wood-deep);
+        color: var(--pearl);
+        font-size: var(--text-xl);
+        text-align: center;
+      }
+
+      .changes-problem {
+        width: 100%;
+        color: var(--pearl-dim);
+        font-size: var(--text-sm);
+        text-align: center;
+      }
+
+      /* The number, and nothing commenting on it. */
+      .changes-score {
+        margin: var(--space-6) 0 var(--space-2);
+        color: var(--pearl);
+        font-size: var(--text-score);
+        line-height: 1;
+        text-align: center;
+      }
+
+      .changes-line {
+        display: flex;
+        justify-content: center;
+        margin-bottom: var(--space-2);
+      }
+
+      .changes-caption {
+        margin: 0 0 var(--space-6);
+        color: var(--pearl-dim);
+        font-size: var(--text-sm);
+        text-align: center;
+      }
+
+      .changes-stop,
+      .changes-count,
+      .changes-score + .changes-line + .changes-caption + .action {
+        display: block;
+        margin-inline: auto;
+      }
     </style>
   </head>
   <body>
@@ -113,12 +334,10 @@
 
     <script type="module">
       import { strings } from "./src/strings.js";
-      import { mountChords } from "./src/chords-screen.js";
+      import { start } from "./src/app.js";
 
       document.getElementById("eyebrow").textContent = strings.appName;
-      document.getElementById("title").textContent = strings.chords.title;
-
-      mountChords(document.getElementById("screen"));
+      start(document.getElementById("screen"));
     </script>
   </body>
 </html>

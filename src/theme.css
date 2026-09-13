@@ -237,6 +237,23 @@ body {
   fill: var(--root-mark);
 }
 
+/* --- The line -----------------------------------------------------------
+ *
+ * A line going up over time, never a percentage (PRD §6). No axis, no
+ * gridlines, no target: the shape is the message. */
+
+.sparkline-line {
+  fill: none;
+  stroke: var(--bronze);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sparkline-last {
+  fill: var(--pearl);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
