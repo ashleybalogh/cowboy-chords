@@ -62,16 +62,15 @@
 
       /* --- home --------------------------------------------------------- */
 
-      .home {
-        display: grid;
-        gap: var(--space-4);
-      }
+      /* One button and one line. Not two cards: a choice between equals is a
+       * decision she has to make before she has played a note. */
 
-      .home-tile {
+      .start {
         display: block;
         width: 100%;
-        padding: var(--space-5);
-        border: var(--hair) solid var(--nickel-dim);
+        max-width: var(--measure);
+        padding: var(--space-6) var(--space-5);
+        border: var(--hair) solid var(--bronze-dim);
         border-radius: var(--radius);
         background: var(--wood-raised);
         color: inherit;
@@ -79,28 +78,51 @@
         cursor: pointer;
       }
 
-      .home-tile:hover {
-        border-color: var(--nickel);
+      .start:hover {
+        border-color: var(--bronze);
       }
 
-      .home-tile-name {
+      .start-name {
         display: block;
+        color: var(--bronze);
         font-family: var(--font-label);
-        font-size: var(--text-lg);
+        font-size: var(--text-xl);
         font-weight: var(--weight-label);
         letter-spacing: var(--tracking-label);
+        line-height: var(--leading-tight);
         text-transform: uppercase;
       }
 
-      .home-tile-note {
+      .start-note {
         display: block;
-        margin-top: var(--space-1);
+        margin-top: var(--space-2);
         color: var(--pearl-dim);
         font-size: var(--text-sm);
       }
 
-      .home-days {
+      /* The quiet second thing. A sentence rather than a tile: it says where
+       * she is, and it is also the way into the chord list. */
+      .standing {
+        display: block;
+        max-width: var(--measure);
         margin-top: var(--space-6);
+        padding: 0 0 var(--space-2);
+        border: 0;
+        border-bottom: var(--hair) solid var(--nickel-dim);
+        background: none;
+        color: var(--pearl);
+        font-family: var(--font-body);
+        font-size: var(--text-base);
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .standing:hover {
+        border-bottom-color: var(--nickel);
+      }
+
+      .home-days {
+        margin-top: var(--space-4);
       }
 
       /* --- the chord list ----------------------------------------------- */
@@ -327,16 +349,16 @@
   </head>
   <body>
     <main class="page">
-      <p class="label" id="eyebrow"></p>
+      <!-- The name appears exactly once per screen: as the heading on home,
+           and as the way back everywhere else. An eyebrow that repeated the
+           heading was saying nothing twice. -->
       <h1 class="page-title" id="title"></h1>
       <div id="screen"></div>
     </main>
 
     <script type="module">
-      import { strings } from "./src/strings.js";
       import { start } from "./src/app.js";
 
-      document.getElementById("eyebrow").textContent = strings.appName;
       start(document.getElementById("screen"));
     </script>
   </body>
