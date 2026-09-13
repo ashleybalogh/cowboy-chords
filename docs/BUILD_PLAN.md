@@ -5,7 +5,8 @@ strictly in order. Do not start a phase until the previous gate passes and Ash
 confirms. One branch per phase, one PR, merged by Ash.
 
 Last updated 2026-09-13, against the PRD's four-stage revision and its
-voice-not-content revision of §6. Nothing built yet; the repo has no commits.
+voice-not-content revision of §6. Phase 0 is merged and live; Phase 1 is open
+as a PR.
 
 ---
 
@@ -174,6 +175,9 @@ src/
   theme.css           every colour, size and spacing value. Screens invent none.
   strings.js          every user-facing string, reviewable as a set
   chordbox.js         the signature object (PRD §6)
+  content.js          loads and validates the four files
+  validate-content.js the rules a hand-edit can break
+  chords-screen.js    the chord list, and one chord up close
   store.js            localStorage, cc: keys, schema version, export/import
   changes.js          the drill
   strum.js            grid + Web Audio clock

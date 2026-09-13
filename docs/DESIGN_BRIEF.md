@@ -101,13 +101,28 @@ inside the marker at the size the box renders at in the drill. If it is not,
 the fallback is hue plus a thin inner outline, and the letter lives only in the
 chord detail view. Decide by looking at it, not here.
 
-### Small sizes
+### Small sizes, and where the gauge idea stops working
 
-The gauge range compresses rather than scaling to nothing: the thinnest string
-never renders below 1px, whatever the box size. **Check the high E and the dots
-that sit on it at the size two boxes plus a timer share a screen** — that is
-the drill, that is the size that matters, and a high E that disappears there
-takes the whole idea with it.
+Measured in Chrome, 2026-09-13, rather than assumed:
+
+| box width | thinnest → thickest | the root's letter |
+|---|---|---|
+| 232px (detail, and the drill) | 1.4 → 3.6px | 8×12px, plainly readable |
+| 150px (the chord list) | 1 → 2.3px | 6×8px, readable |
+| 132px | 1 → 2.0px, **B and high E both clamp to 1** | 5×7px |
+| 90px | everything toward 1px | 3×5px, too small |
+
+So the gauges are honest **at about 150px and up**, and below that they
+compress toward a uniform hairline because 1px is the floor and there is
+nowhere left to go. That is accepted rather than worked around: printed chord
+boxes are uniform anyway, so a small box that flattens is merely ordinary,
+while a large box that shows the truth is the thing worth having. The sizes
+that matter — the drill, where she stares at it, and the detail view — are
+both above the threshold.
+
+**No box below 150px anywhere she reads a shape from.** A song-list thumbnail
+can be smaller, because it is a reminder of a shape she already knows rather
+than the thing she learns it from.
 
 Drawn once as one component from `chords.json`, used everywhere, never
 reimplemented. Chord boxes are not tab and the app never conflates them.

@@ -7,13 +7,23 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { strings } from "../src/strings.js";
 
+/* Some strings take arguments — a root line needs a note, a string and a fret.
+ * They are called with both shapes that matter, an open root and a fretted
+ * one, so the rules below check what she actually reads. */
+const SAMPLE_ARGS = [
+  ["G", 6, 3],
+  ["E", 6, 0],
+];
+
 /** Every string in the object, flattened, with the path that got there. */
 function* everyString(node, path = "strings") {
   for (const [key, value] of Object.entries(node)) {
     const here = `${path}.${key}`;
     if (typeof value === "string") yield [here, value];
-    else if (value && typeof value === "object") yield* everyString(value, here);
-    else assert.fail(`${here} is neither a string nor an object`);
+    else if (typeof value === "function") {
+      for (const args of SAMPLE_ARGS) yield [`${here}(${args.join(", ")})`, value(...args)];
+    } else if (value && typeof value === "object") yield* everyString(value, here);
+    else assert.fail(`${here} is neither a string, a function nor an object`);
   }
 }
 

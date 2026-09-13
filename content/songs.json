@@ -1,0 +1,17 @@
+{
+  "_note": "Songs she can play with the chords she has. A song appears only once every chord it needs is unlocked. The app stores nothing but this: title, artist, the chords it needs, whether it wants a capo, and a search URL. No lyrics, no chord sheets, no iframes, no caching — the link-out is the whole integration (PRD §2, §3.3).",
+
+  "_capo": "null means no capo. A number is the fret. Capo songs are stored but hidden until the setting is on (PRD §4), so it is worth adding them as they come up rather than leaving them out.",
+
+  "_empty": "Empty on purpose. Phase 4 fills it, starting from the six songs she named rather than from a list of correct beginner songs, and checks the chords each one actually needs against a real source before it goes in. A song listed as playable that turns out to need F is worse than one left out.",
+
+  "_shape": {
+    "title": "Horse With No Name",
+    "artist": "America",
+    "chords": ["Em", "D"],
+    "capo": null,
+    "ug_search": "https://www.ultimate-guitar.com/search.php?search_type=title&value=horse+with+no+name"
+  },
+
+  "songs": []
+}

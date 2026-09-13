@@ -1,0 +1,202 @@
+{
+  "_note": "Every pair of the eight chords, in unlock order, so the drill is never short of one. A pair is only offered once both its chords are unlocked. Delete a line to stop the app ever offering that pair; nothing else has to change.",
+  "_drill": "One pair per minute, never a mixture — justinguitar.com/guitar-lessons/one-minute-changes-exercise-b1-110: \"The key point in this lesson is to focus on only one chord change during one minute.\"",
+  "pairs": [
+    {
+      "id": "Em-A",
+      "chords": [
+        "Em",
+        "A"
+      ]
+    },
+    {
+      "id": "Em-D",
+      "chords": [
+        "Em",
+        "D"
+      ]
+    },
+    {
+      "id": "Em-G",
+      "chords": [
+        "Em",
+        "G"
+      ]
+    },
+    {
+      "id": "Em-C",
+      "chords": [
+        "Em",
+        "C"
+      ]
+    },
+    {
+      "id": "Em-Am",
+      "chords": [
+        "Em",
+        "Am"
+      ]
+    },
+    {
+      "id": "Em-E",
+      "chords": [
+        "Em",
+        "E"
+      ]
+    },
+    {
+      "id": "Em-Dm",
+      "chords": [
+        "Em",
+        "Dm"
+      ]
+    },
+    {
+      "id": "A-D",
+      "chords": [
+        "A",
+        "D"
+      ]
+    },
+    {
+      "id": "A-G",
+      "chords": [
+        "A",
+        "G"
+      ]
+    },
+    {
+      "id": "A-C",
+      "chords": [
+        "A",
+        "C"
+      ]
+    },
+    {
+      "id": "A-Am",
+      "chords": [
+        "A",
+        "Am"
+      ]
+    },
+    {
+      "id": "A-E",
+      "chords": [
+        "A",
+        "E"
+      ]
+    },
+    {
+      "id": "A-Dm",
+      "chords": [
+        "A",
+        "Dm"
+      ]
+    },
+    {
+      "id": "D-G",
+      "chords": [
+        "D",
+        "G"
+      ]
+    },
+    {
+      "id": "D-C",
+      "chords": [
+        "D",
+        "C"
+      ]
+    },
+    {
+      "id": "D-Am",
+      "chords": [
+        "D",
+        "Am"
+      ]
+    },
+    {
+      "id": "D-E",
+      "chords": [
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "D-Dm",
+      "chords": [
+        "D",
+        "Dm"
+      ]
+    },
+    {
+      "id": "G-C",
+      "chords": [
+        "G",
+        "C"
+      ]
+    },
+    {
+      "id": "G-Am",
+      "chords": [
+        "G",
+        "Am"
+      ]
+    },
+    {
+      "id": "G-E",
+      "chords": [
+        "G",
+        "E"
+      ]
+    },
+    {
+      "id": "G-Dm",
+      "chords": [
+        "G",
+        "Dm"
+      ]
+    },
+    {
+      "id": "C-Am",
+      "chords": [
+        "C",
+        "Am"
+      ]
+    },
+    {
+      "id": "C-E",
+      "chords": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "id": "C-Dm",
+      "chords": [
+        "C",
+        "Dm"
+      ]
+    },
+    {
+      "id": "Am-E",
+      "chords": [
+        "Am",
+        "E"
+      ]
+    },
+    {
+      "id": "Am-Dm",
+      "chords": [
+        "Am",
+        "Dm"
+      ]
+    },
+    {
+      "id": "E-Dm",
+      "chords": [
+        "E",
+        "Dm"
+      ]
+    }
+  ]
+}

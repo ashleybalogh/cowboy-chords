@@ -168,6 +168,75 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* --- The chord box ------------------------------------------------------
+ *
+ * The one light object in the app. Drawn by src/chordbox.js; these are the
+ * only styles it has, so the drawing and its look stay in step. */
+
+.chordbox-card {
+  fill: var(--card);
+  stroke: var(--card-edge);
+  stroke-width: 1;
+}
+
+.chordbox-nut {
+  stroke: var(--card-ink);
+  stroke-linecap: square;
+}
+
+.chordbox-fret {
+  stroke: var(--card-ink-dim);
+  stroke-width: 1;
+  opacity: 0.55;
+}
+
+.chordbox-string {
+  stroke: var(--card-ink);
+  opacity: 0.75;
+}
+
+.chordbox-dot {
+  fill: var(--card-ink);
+}
+
+.chordbox-dot.is-root,
+.chordbox-open.is-root {
+  fill: var(--root-mark);
+}
+
+.chordbox-open {
+  fill: none;
+  stroke: var(--card-ink-dim);
+  stroke-width: 1.5;
+}
+
+.chordbox-open.is-root {
+  fill: none;
+  stroke: var(--root-mark);
+  stroke-width: 2;
+}
+
+.chordbox-muted {
+  stroke: var(--card-ink-dim);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+/* Finger numbers inside the dots, and the root's letter in place of one. */
+.chordbox-inside {
+  fill: var(--card);
+  font-family: var(--font-label);
+  font-weight: var(--weight-label);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+/* The root's letter above an open string has no dot behind it, so it takes the
+ * root's own colour rather than the card's. */
+.chordbox-inside.above-nut {
+  fill: var(--root-mark);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
