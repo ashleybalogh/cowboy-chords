@@ -290,6 +290,10 @@ the line. The line is the whole point.
    without it — the drills are the vegetables.
 6. Session loop wiring the four stages together.
 7. Chord picker, PWA manifest, export/import.
+8. Power chords. Added 2026-09-13 — see §9. One movable box type, a set of
+   songs from her own list, and **no drills**: sliding one shape and switching
+   between two shapes are different skills, and mixing them would flood the
+   chord pairs and muddy the one number she's watching go up.
 
 Each step should be independently runnable in Chrome.
 
@@ -300,15 +304,34 @@ Each step should be independently runnable in Chrome.
 Do not build these. Revisit only if she's still opening the app after a month
 of regular use — and if she isn't, none of it would have helped.
 
-- **Microphone features.** A tuner (monophonic pitch detection via YIN is
-  reliable and would work), and a string-by-string chord check where she
-  arpeggiates and each string is marked. Both were cut because the guitar has a
-  tuner and the chord check doesn't earn the whole audio subsystem on its own.
-  Note for whoever picks this up: full polyphonic chord recognition stays out
-  regardless — a false "that's wrong" to a kid who played it right is worse
-  than no feedback.
+- **Microphone features — reopened as a question, 2026-09-13.** A tuner
+  (monophonic pitch detection via YIN is reliable and would work), and a
+  string-by-string chord check where she arpeggiates and each string is
+  marked. Both were cut because the guitar has a tuner and a person could
+  check her chords — and §5.3 says so out loud, "for the first month a human
+  does it better anyway". She uses the app alone, so that half of the
+  reasoning does not hold and the string check is back on the table.
+
+  It is not the next thing to build. The gap §5.3 left was that the
+  instruction stopped after "look at which finger is leaning on it"; the app
+  now says what to look for on each chord, which is what a person in the room
+  would have said. Before the microphone becomes a phase, restate the
+  question: she doesn't need to know the note is *right*, she needs to know
+  the string *sounded*, and dead-versus-ringing is amplitude rather than
+  pitch. Prove that on a real steel-string before planning around it, and
+  decide where the permission prompt goes, because §5 bans one on first run.
+
+  Full polyphonic chord recognition stays out regardless — a false "that's
+  wrong" to a kid who played it right is worse than no feedback.
 - Tab notation, and reading single-note lines.
 - Scales, gated behind three playable songs.
-- Barre chords and F.
+- Barre chords and F. **Power chords are no longer here** — they moved to §8
+  as Phase 8 on 2026-09-13. They were deferred on the assumption that someone
+  would teach them in person while the app stayed on cowboy chords, and there
+  is no in-person teacher; the app is the only route to the half of her taste
+  that's built on them. A 5-shape is two fingers and no barre, so the ban
+  above is untouched, and root-and-fifth is the plainest demonstration of the
+  root note §5.1 already marks in every box. The gate is still to be set, and
+  should be low enough that she can see it.
 - Capo mode, if she gets one — the data model already supports it.
 - Her sister, if she picks it up.
