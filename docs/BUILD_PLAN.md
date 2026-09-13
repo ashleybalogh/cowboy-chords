@@ -222,7 +222,7 @@ cc:unlocked    ["Em","A"]              chords she can hold
 cc:scores      [{pair:"Em-A", count:11, at:"2026-09-13T18:02:00Z"}, ...]
 cc:sessions    ["2026-09-13", ...]     dates only, for "14 of the last 30 days"
 cc:settings    {tempo:60, showCapoSongs:true}   showCapoSongs defaults on: the capo is bought
-cc:week        {patternId:"all-downs", since:"2026-09-13"}
+cc:week        {patternId:"all-downs", since:"2026-09-13"}   name is a fossil of a one-week-per-pattern draft
 cc:firstRun    done, so the chord picker asks once and never again
 ```
 
@@ -341,22 +341,85 @@ sparkline's window, and the store surviving a schema bump.
 
 PRD §8.3.
 
-- One pattern per week from `cc:week`, not per session (PRD §3.2). Three
-  weeks minimum on a pattern: all downs → D-D-U-U-D-U → syncopated.
+- One pattern at a time from `cc:week`, not per session (PRD §3.2).
+
+  **The three weeks is a guess, not a constraint** (Ash, 2026-09-13). It is
+  not from the letter — his sequence is chords, picking, scales, and never
+  mentions strumming — and it is not from Justin, who teaches all three steps
+  on one page in one sitting. It came from PRD drafting, where the rule was
+  originally *one week per pattern*, and the key name `cc:week` is the fossil
+  of that.
+
+  Checked against §3.2, and the current build loses: "One pattern **per
+  week**, not per session" and "Three weeks minimum before moving on" are only
+  consistent if the three weeks covers the whole progression. Twenty-one days
+  *per pattern* makes it one pattern per three weeks, which contradicts §3.2's
+  own first line and comes to **63 days for something the source teaches in a
+  single lesson**.
+
+  So the timing is a nudge and not a gate, and she can move herself — see the
+  ladder below. The threshold is one named constant precisely because it is a
+  guess.
 - Down and up arrows on a four-beat grid, current beat lit, synced to the
   click. Tempo slider, default 60, hers to raise.
 - Scheduled on the Web Audio clock with a lookahead, never `setInterval`.
   Output only; no permission prompt of any kind (PRD §3.2, §5).
+
+- **The ladder, and who holds the lever** (Ash, 2026-09-13). The three
+  patterns are shown as a ladder with her position marked, and **she can tap
+  any of them, forward or back**. Not Ash: he does not play, so putting the
+  only override in devtools would route a judgement through the person least
+  able to make it. Movement in both directions is what makes it safe — if she
+  jumps ahead and it is too hard, retreating costs one tap and she will
+  self-correct within a session.
+
+  Framed as *where she is*, never as skipping ahead. It also removes the need
+  for a "new pattern this week" banner: a ladder with her position on it makes
+  the change explain itself.
+
+- **When the app moves her on by itself**: 21 days *and* about 10 days
+  practised since the pattern started. Days practised rather than the calendar
+  alone, because §3.2 cares about repetition and three weeks on a wall
+  calendar provides none — a fortnight off would otherwise promote her past
+  something she has not played. It needs no new state; the session dates are
+  already there.
+
+- **"Old Faithful" names two different patterns in the wild** (Ash,
+  2026-09-13). Justin's is five strums. The common version elsewhere —
+  including most Ultimate Guitar comments, which is exactly where the song
+  links go — is D-DU-UDU, with the up on 4&. One line in the UI acknowledges
+  the variation, so the app disagreeing with a tab page does not read as the
+  app being wrong.
 
 - **The session grows a stage; the home screen does not grow a button.**
   Start practice now runs Changes then Strum, in PRD §3's order. A second tile
   would have broken the home rule the day after it was written, and this way
   Phase 6 assembles what is already there rather than replacing it.
 
-**Gate.** Three minutes at 60 bpm with no audible drift against a phone
-metronome, and the lit beat still agreeing with the click at the end. Tests
-cover the beat-time maths. Verified in Chrome on her laptop, **with sound** —
-which is the half of this gate only Ash can close.
+**What the drift evidence is, and what it is not** (Ash, 2026-09-13). The
+claim that the click does not drift rests on **the simulation and the audio
+timestamps**: three minutes of scheduling books 361 beats with the last within
+a nanosecond of where it belongs, because each beat's time is computed from
+the previous one rather than from when a timer fired.
+
+The Chrome measurements of the highlight — 519, 451, 527, 523, 449 ms against
+a nominal 500 — are **a separate observation about visual jitter**, not
+evidence about the clock. They are the sampling granularity of the observer
+plus the frame rate, and they would look like that even if the audio were
+perfect, which it is. Do not cite them as accuracy figures.
+
+**Gate.** Only Ash can close this one; nothing here can hear itself.
+
+1. Three minutes at 60 bpm against a phone metronome, no audible drift, and
+   the lit beat still agreeing with the click at the end.
+2. **Resume after a couple of minutes in a background tab**, and check the
+   highlight and the click still agree. This is the seam where the
+   `requestAnimationFrame` stall lives: the click keeps time on the audio
+   clock while the screen stops painting, so this is where they can come
+   apart without either being wrong on its own.
+3. **A run at a faster tempo** — 100 or 120. Sixty is the least demanding
+   case for the scheduler, since the gaps are widest and a late wake-up has
+   the most room to recover.
 
 ## Phase 4 — songs
 
