@@ -431,5 +431,9 @@ localhost with every score intact.
   spacing value in `src/theme.css`. No screen invents either.
 - No dependency that needs installing to run the app, and no build step to
   change content.
-- One branch per phase, cut from a freshly pulled `origin/main`, under about
-  400 lines, opened with `gh`, merged by Ash. Claude never merges.
+- One branch per phase, cut from a freshly pulled `origin/main`, opened with
+  `gh`, merged by Ash. Claude never merges.
+- Under about 400 lines of **hand-written code** per PR. Generated data and
+  tests are not counted: the number is a cap on how much there is to read, and
+  counting `pairs.json` against it made the rule meaningless. Each PR names
+  the files that are its reviewable surface.

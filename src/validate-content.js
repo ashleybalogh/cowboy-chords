@@ -104,6 +104,57 @@ export function validateChords(doc) {
     if (playedAt !== null && playedAt !== root.fret) {
       say(`${where}: root is at fret ${root.fret} but string ${root.string} is played at fret ${playedAt}`);
     }
+
+    problems.push(...validateAlternates(chord));
+  }
+
+  return problems;
+}
+
+/**
+ * An alternate is another way to hold the same chord — the same strings, at
+ * the same frets, with different fingers on them. That is the whole contract,
+ * and it is worth enforcing: an "alternate" that moves a note is a different
+ * chord wearing the right name, and she would learn it as this one.
+ */
+export function validateAlternates(chord) {
+  const problems = [];
+  if (chord.alternates === undefined) return problems;
+  if (!Array.isArray(chord.alternates)) return [`${chord.id}: alternates must be a list`];
+
+  const shape = (fingers) =>
+    [...fingers].map((f) => `${f.string}:${f.fret}`).sort().join(" ");
+  const theChord = shape(chord.fingers ?? []);
+  const seen = new Set();
+
+  for (const alt of chord.alternates) {
+    const where = `${chord.id} alternate ${alt.id ?? "(no id)"}`;
+    if (!alt.id) problems.push(`${chord.id}: an alternate has no id`);
+    if (!alt.label) problems.push(`${where} has no label — she has to be able to tell them apart`);
+    if (seen.has(alt.id)) problems.push(`${where} is listed twice`);
+    seen.add(alt.id);
+
+    if (!Array.isArray(alt.fingers) || alt.fingers.length === 0) {
+      problems.push(`${where} has no fingers`);
+      continue;
+    }
+    if (shape(alt.fingers) !== theChord) {
+      problems.push(`${where} does not play the same notes as ${chord.id} — an alternate changes fingers, never the chord`);
+    }
+
+    const used = new Set();
+    for (const f of alt.fingers) {
+      if (!Number.isInteger(f.finger) || f.finger < 1 || f.finger > 4) {
+        problems.push(`${where}: finger ${f.finger} is not 1–4`);
+      }
+      if (used.has(f.finger)) problems.push(`${where}: finger ${f.finger} is on two strings — that is a barre`);
+      used.add(f.finger);
+    }
+
+    const same = alt.fingers.every((f) =>
+      chord.fingers.some((d) => d.string === f.string && d.fret === f.fret && d.finger === f.finger),
+    );
+    if (same) problems.push(`${where} is the same fingering as the default`);
   }
 
   return problems;

@@ -159,3 +159,49 @@ test("catches a song link that does not go to Ultimate Guitar", () => {
   };
   assert.match(validateSongs(doc, ["Em"], ["Em"]).join("\n"), /must be an ultimate-guitar\.com URL/);
 });
+
+/* --- alternate fingerings ------------------------------------------------ */
+
+test("the chords whose fingering differs from most charts offer another way", () => {
+  // Three of eight, including the first chord she will ever look up. Without
+  // an alternative offered in the app she finds Em fingered 2-3 on a chart,
+  // decides the app is broken, and says nothing.
+  for (const id of ["Em", "A", "Dm"]) {
+    const chord = chords.chords.find((c) => c.id === id);
+    assert.ok(chord.alternates?.length, `${id} has no alternate fingering offered`);
+  }
+});
+
+test("an alternate plays the same notes as the chord, with different fingers", () => {
+  const shape = (fingers) => fingers.map((f) => `${f.string}:${f.fret}`).sort().join(" ");
+  for (const chord of chords.chords) {
+    for (const alt of chord.alternates ?? []) {
+      assert.equal(
+        shape(alt.fingers),
+        shape(chord.fingers),
+        `${chord.id}/${alt.id} changes the chord, not just the fingers`,
+      );
+      assert.notDeepEqual(alt.fingers, chord.fingers, `${chord.id}/${alt.id} is the default again`);
+    }
+  }
+});
+
+test("catches an alternate that quietly changes the chord", () => {
+  const doc = good();
+  const em = doc.chords.find((c) => c.id === "Em");
+  em.alternates[0].fingers[0].fret = 3;
+  assert.match(validateChords(doc).join("\n"), /does not play the same notes/);
+});
+
+test("catches an alternate that is a barre", () => {
+  const doc = good();
+  const a = doc.chords.find((c) => c.id === "A");
+  a.alternates[0].fingers[1].finger = 1;
+  assert.match(validateChords(doc).join("\n"), /finger 1 is on two strings — that is a barre/);
+});
+
+test("catches an alternate with no label to tell it apart by", () => {
+  const doc = good();
+  delete doc.chords.find((c) => c.id === "Dm").alternates[0].label;
+  assert.match(validateChords(doc).join("\n"), /has no label/);
+});
