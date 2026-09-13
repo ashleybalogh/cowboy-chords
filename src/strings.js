@@ -61,9 +61,19 @@ export const strings = {
     firstOne: "That's the first one on the line.",
     lastFew: (n) => `The last ${n} for this pair.`,
     nextRound: "Next round",
+    // Where the last round actually goes. A button that says "Done" and then
+    // takes you somewhere is how you lose someone inside their own app.
+    onToStrum: "On to strumming",
     done: "Done",
     nothingUnlocked:
-      "Nothing to change between yet. Go to Chords and say which ones you can hold — two is enough to start.",
+      "Nothing to change between yet. Say which chords you can hold — two is enough to start.",
+    pickChords: "Pick your chords",
+    skipToNext: "Skip to strumming",
+
+    // Stopping early records nothing, and says so plainly rather than leaving
+    // her to wonder where the number went.
+    stopped:
+      "Stopped, and nothing went on the line — a count only means something over a full minute. Go again whenever you're ready.",
   },
 
   chord: {
@@ -102,6 +112,14 @@ export const strings = {
 
   strum: {
     title: "Strum",
+    // She has just spent two minutes on her left hand. This stage is the other
+    // one, and saying so is the difference between a drill and a mystery.
+    whatThisIs:
+      "This one is all about the strumming hand. Hold down one chord and leave it there — which chord barely matters, because the thing you're practising is keeping time.",
+    chordToday: (name) => `Hold ${name} and let it ring the whole way through.`,
+    noChordYet:
+      "No chords yet, so strum the open strings. The right hand is the whole point here.",
+
     thisWeek: (name) => `This week: ${name}`,
     // Justin's point, and the pattern does not work without it.
     keepMoving:

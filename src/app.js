@@ -30,10 +30,19 @@ export function start(root) {
     // One button, and it runs the session. The session grows a stage per
     // phase and always in PRD §3's order, so Phase 6 assembles what is
     // already here rather than replacing it.
+    const strum = () =>
+      screen(strings.strum.title, (next) => mountStrum(next, { onDone: home }));
+
     go.addEventListener("click", () =>
       screen(strings.changes.title, (el) =>
         mountChanges(el, {
-          onDone: () => screen(strings.strum.title, (next) => mountStrum(next, { onDone: home })),
+          onDone: strum,
+          // The button at the end of the last round says where it goes. It
+          // used to say "Done" and then move her on, which is how you lose
+          // someone inside their own app.
+          nextLabel: strings.changes.onToStrum,
+          onPickChords: () =>
+            screen(strings.chords.title, (el2) => mountChords(el2, { onChange: () => {} })),
         }),
       ),
     );

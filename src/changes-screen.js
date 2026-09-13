@@ -14,15 +14,22 @@ import { sparkline } from "./sparkline.js";
 import { strings } from "./strings.js";
 import { addScore, markPractised, scores, unlocked } from "./store.js";
 import { ROUND_SECONDS, chooseRounds, parseCount, sparklineData } from "./drill.js";
+import { soundEnd, soundStart } from "./metronome.js";
 
 const s = strings.changes;
 
-export async function mountChanges(root, { onDone } = {}) {
+export async function mountChanges(root, { onDone, onPickChords, nextLabel } = {}) {
   const { pairs, byId } = await content();
   const rounds = chooseRounds(pairs, unlocked(), scores());
 
   if (rounds.length === 0) {
-    root.replaceChildren(para(s.nothingUnlocked));
+    // Not a place to be stuck. Strumming needs no chords at all, and the one
+    // thing that fixes this is two taps away.
+    root.replaceChildren(
+      para(s.nothingUnlocked),
+      button(s.pickChords, () => onPickChords?.()),
+      button(s.skipToNext, () => onDone?.(), "is-quiet"),
+    );
     return;
   }
 
@@ -31,14 +38,14 @@ export async function mountChanges(root, { onDone } = {}) {
 
   /* --- before the minute ------------------------------------------------ */
 
-  function showReady() {
+  function showReady(note) {
     const pair = rounds[index];
     const start = button(s.start, () => runRound(pair));
 
     root.replaceChildren(
       roundLabel(),
       boxes(pair),
-      para(index === 0 ? s.tuneUp : s.secondRound, "changes-note"),
+      para(note ?? (index === 0 ? s.tuneUp : s.secondRound), "changes-note"),
       start,
     );
     start.focus();
@@ -50,7 +57,7 @@ export async function mountChanges(root, { onDone } = {}) {
     const clock = document.createElement("p");
     clock.className = "changes-clock number";
 
-    const stop = button(s.stopEarly, finish, "changes-stop");
+    const stop = button(s.stopEarly, abandon, "changes-stop");
 
     root.replaceChildren(roundLabel(), boxes(pair), clock, stop);
 
@@ -66,13 +73,30 @@ export async function mountChanges(root, { onDone } = {}) {
       if (left === 0) finish();
     };
 
-    function finish() {
-      if (timer === null) return;
+    function halt() {
+      if (timer === null) return false;
       clearInterval(timer);
       timer = null;
+      return true;
+    }
+
+    /** The minute ran out. This is the only way a number gets recorded. */
+    function finish() {
+      if (!halt()) return;
+      soundEnd();
       askForCount(pair);
     }
 
+    /** She stopped it early — sore fingers, a phone, anything. No number is
+     *  asked for and nothing is recorded: a count over forty seconds is not
+     *  the same measurement as a count over sixty, and putting it on the same
+     *  line would quietly corrupt the one thing she is watching. */
+    function abandon() {
+      if (!halt()) return;
+      showReady(s.stopped);
+    }
+
+    soundStart();
     tick();
     timer = setInterval(tick, 250);
   }
@@ -143,7 +167,7 @@ export async function mountChanges(root, { onDone } = {}) {
 
     index += 1;
     const more = index < rounds.length;
-    const next = button(more ? s.nextRound : s.done, () => {
+    const next = button(more ? s.nextRound : (nextLabel ?? s.done), () => {
       if (more) showReady();
       else onDone?.();
     });
