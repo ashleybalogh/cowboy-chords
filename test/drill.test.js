@@ -123,3 +123,15 @@ test("days practised does not count tomorrow", () => {
   const now = new Date("2026-09-30T12:00:00Z");
   assert.equal(daysPractised(["2026-10-01"], 30, now), 0);
 });
+
+test("a minute stopped early is not a score", () => {
+  // Enforced in the screen rather than here, but the reason belongs with the
+  // drill's rules: a count over forty seconds is not the same measurement as
+  // a count over sixty. Putting both on one line would quietly corrupt the
+  // only number she is watching, which is the whole app.
+  const full = [score("Em-A", 20), score("Em-A", 22)];
+  assert.deepEqual(sparklineData("Em-A", full), [20, 22]);
+  // Nothing in the store distinguishes a short round from a full one, which
+  // is exactly why a short one must never reach it.
+  assert.equal(Object.keys(full[0]).sort().join(","), "at,count,pair");
+});

@@ -10,17 +10,19 @@
  * on requestAnimationFrame. */
 
 import { content } from "./content.js";
+import { chordBox } from "./chordbox.js";
+import { asHeld } from "./fingerings.js";
 import { strings } from "./strings.js";
 import { metronome, SLOTS_PER_BAR } from "./metronome.js";
 import { patternForToday } from "./week.js";
-import { settings, setSetting, thisWeek, setWeek, today } from "./store.js";
+import { settings, setSetting, thisWeek, setWeek, today, unlocked, practisedDays } from "./store.js";
 
 const s = strings.strum;
 
 export const MINUTES = 3;
 
 export async function mountStrum(root, { onDone } = {}) {
-  const { patterns } = await content();
+  const { patterns, byId } = await content();
 
   const week = patternForToday(thisWeek(), patterns, today());
   setWeek(week);
@@ -34,6 +36,30 @@ export async function mountStrum(root, { onDone } = {}) {
   const name = document.createElement("p");
   name.className = "label";
   name.textContent = s.thisWeek(pattern.name);
+
+  /* What to strum.
+   *
+   * The PRD says what the pattern is and never what to play it on, and Justin
+   * teaches this in a video, so there is no source to settle it. Decided
+   * here: one chord, held the whole way through, because the point of this
+   * stage is the right hand and the left one already has a drill of its own.
+   *
+   * The pattern is fixed for the week (PRD §3.2) but the chord is not — it
+   * moves through what she can hold, so the hand that matters repeats while
+   * the other gets some variety. With nothing unlocked the open strings do
+   * the job and sound fine. */
+  const held = unlocked();
+  const chordToday = held.length ? byId(held[practisedDays().length % held.length]) : null;
+
+  const what = para(s.whatThisIs, "strum-note");
+  const holdThis = document.createElement("div");
+  holdThis.className = "strum-hold";
+  if (chordToday) {
+    holdThis.append(chordBox(asHeld(chordToday), { size: 150 }));
+    holdThis.append(para(s.chordToday(chordToday.name), "strum-hold-line"));
+  } else {
+    holdThis.append(para(s.noChordYet, "strum-hold-line"));
+  }
 
   const grid = document.createElement("ol");
   grid.className = "strum-grid";
@@ -108,7 +134,7 @@ export async function mountStrum(root, { onDone } = {}) {
 
   action.addEventListener("click", () => (clock ? stop() : play()));
 
-  root.replaceChildren(name, grid, keepMoving, tempoRow, action, left, done);
+  root.replaceChildren(what, holdThis, name, grid, keepMoving, tempoRow, action, left, done);
 
   /* --- running ---------------------------------------------------------- */
 

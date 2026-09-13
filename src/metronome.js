@@ -29,6 +29,52 @@ export function slotSeconds(bpm) {
   return 60 / bpm / 2;
 }
 
+/* --- one-off tones -------------------------------------------------------
+ *
+ * Not a metronome. The changes drill has no click — Justin's version is a
+ * countdown timer and nothing else — but a timer she has to watch is not
+ * doing its job, and during that minute her eyes belong on her hands. So the
+ * minute says out loud when it starts and when it stops.
+ *
+ * Same shape of sound as the metronome's click, so the app has one voice. */
+
+let shared = null;
+
+/** Created on a gesture, never at load: a context made without one starts
+ *  suspended and the first sound is late. */
+function audio() {
+  shared ??= new (globalThis.AudioContext ?? globalThis.webkitAudioContext)();
+  if (shared.state === "suspended") shared.resume();
+  return shared;
+}
+
+export function tone(context, { at, frequency, gain = 0.3, length = 0.09 }) {
+  const osc = context.createOscillator();
+  const level = context.createGain();
+  osc.frequency.value = frequency;
+  level.gain.setValueAtTime(0.0001, at);
+  level.gain.exponentialRampToValueAtTime(gain, at + 0.001);
+  level.gain.exponentialRampToValueAtTime(0.0001, at + length);
+  osc.connect(level).connect(context.destination);
+  osc.start(at);
+  osc.stop(at + length + 0.01);
+}
+
+/** One note to say the minute has begun. */
+export function soundStart() {
+  const context = audio();
+  tone(context, { at: context.currentTime + 0.02, frequency: 1000 });
+}
+
+/** Three, so it cannot be mistaken for a beat of anything. */
+export function soundEnd() {
+  const context = audio();
+  const now = context.currentTime + 0.02;
+  for (let i = 0; i < 3; i++) {
+    tone(context, { at: now + i * 0.13, frequency: 760 + i * 180, gain: 0.34 });
+  }
+}
+
 /**
  * Every slot due between `from` and `from + window`, as absolute times.
  *
