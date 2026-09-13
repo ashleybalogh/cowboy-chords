@@ -1,0 +1,14 @@
+{
+  "name": "cowboy-chords",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A short daily practice loop for one 13-year-old learning guitar.",
+  "scripts": {
+    "start": "node serve.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

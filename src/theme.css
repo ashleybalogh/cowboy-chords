@@ -1,0 +1,160 @@
+/* Cowboy Chords — visual tokens.
+ *
+ * Every colour, size and spacing value in the app comes from here. No screen
+ * invents one. See docs/DESIGN_BRIEF.md for what each material is and why.
+ *
+ * Rule of thumb: if a value cannot be named after a thing on a guitar, it does
+ * not belong in this file. */
+
+:root {
+  /* --- Materials ------------------------------------------------------- */
+
+  /* Rosewood, in three depths. Grounds only. */
+  --wood-deep: #1c1612;
+  --wood: #241c17;
+  --wood-raised: #2f251e;
+
+  /* Nickel fret wire. Structure. --nickel-dim is for hairlines, never text:
+   * it does not carry enough contrast on wood. */
+  --nickel: #b9bdbd;
+  --nickel-dim: #6e7373;
+
+  /* Pearl inlay. Text. Never a background — see the brief, §1. */
+  --pearl: #f2ede3;
+  --pearl-dim: #a9a29a;
+
+  /* A bronze-wound string, oxidised. The live thing: current beat, active
+   * chord, the progress line. Sparing enough that it always means "this one,
+   * now". */
+  --bronze: #c08a3e;
+  --bronze-dim: #8a6430;
+
+  /* Masking tape and ballpoint. The song list only. */
+  --tape: #d8cba6;
+  --ink: #2a2723;
+
+  /* --- Type ------------------------------------------------------------ */
+
+  /* No web fonts: the app runs offline with no network calls (PRD §5). These
+   * are system faces, chosen rather than defaulted to. */
+
+  /* DIN — equipment lettering. Amp panels, flight cases, string packets.
+   * Uppercase and letterspaced, for labels and stage names only. */
+  --font-label: "Bahnschrift", "DIN Alternate", "Franklin Gothic Medium",
+    "Arial Narrow", system-ui, sans-serif;
+
+  /* Quiet and invisible. Sentences. */
+  --font-body: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system,
+    "Helvetica Neue", sans-serif;
+
+  /* Tabular and mechanical — a tally, not a KPI. Scores, tempo, counts. */
+  --font-number: "Cascadia Mono", "Consolas", ui-monospace, "SF Mono", Menlo,
+    monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.75rem;
+  --text-2xl: 2.5rem;
+  --text-score: 5rem; /* the largest type in the app, and nothing comments on it */
+
+  --leading-tight: 1.15;
+  --leading-body: 1.55;
+
+  --tracking-label: 0.14em;
+
+  --weight-body: 400;
+  --weight-label: 600;
+
+  /* --- Space ----------------------------------------------------------- */
+
+  /* A plain 4px scale, deliberately unremarkable. The boldness is spent on the
+   * chord box and nowhere else. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  --measure: 34rem; /* reading width for instructions */
+
+  /* --- Edges ----------------------------------------------------------- */
+
+  --hair: 1px;
+  --radius: 2px; /* fret wire and nut edges are hard; the guitar's curves are not here */
+  --focus-ring: 2px solid var(--bronze);
+  --focus-offset: 2px;
+
+  /* --- The chord box --------------------------------------------------- */
+
+  /* String gauges, scaled from a light acoustic set (.012–.053). The low E is
+   * two and a half times the high E, because it is. She can then tell which
+   * string is which by looking, which is half of reading a chord box. */
+  --gauge-1: 1px; /* .012  high E */
+  --gauge-2: 1.2px; /* .016  B */
+  --gauge-3: 1.5px; /* .024  G */
+  --gauge-4: 1.8px; /* .032  D */
+  --gauge-5: 2.2px; /* .042  A */
+  --gauge-6: 2.6px; /* .053  low E */
+
+  --fret-wire: 3px;
+  --nut: 6px;
+  --dot: 13px; /* fingertip dot diameter */
+  --box-width: 168px;
+}
+
+/* --- Floor ------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--wood);
+  color: var(--pearl);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.label {
+  font-family: var(--font-label);
+  font-weight: var(--weight-label);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--pearl-dim);
+}
+
+.number {
+  font-family: var(--font-number);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
