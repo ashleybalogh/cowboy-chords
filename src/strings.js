@@ -124,6 +124,20 @@ export const strings = {
     // Justin's point, and the pattern does not work without it.
     keepMoving:
       "Keep your hand moving the whole way through, even on the beats with no arrow. It swings like a pendulum and the strings just happen to be in the way sometimes.",
+    // Justin's Old Faithful is five strums. Most of the internet's is six.
+    // She will meet the other one the first time she opens a tab page, and
+    // this is here so that reads as a variation rather than as the app being
+    // wrong.
+    oldFaithfulVaries:
+      "You'll see this one written a few different ways. Plenty of people add one more up strum right at the end, after the 4. Both are called old faithful and both are right — this is the one Justin teaches.",
+
+    ladderTitle: "The three patterns",
+    // Where she is, not a menu of levels. Nothing here says "unlocked",
+    // "next" or "skip".
+    ladderNote:
+      "These are the three, in the order they get harder. You're on one of them and you can move to any of the others whenever you like — going back is as easy as going forward, so it's worth trying the next one to see how it feels.",
+    youreHere: "You're here",
+
     tempoLabel: "Tempo",
     bpm: (n) => `${n} bpm`,
     start: "Start the click",
