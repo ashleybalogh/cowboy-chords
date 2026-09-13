@@ -16,9 +16,43 @@
 export const strings = {
   appName: "Cowboy Chords",
 
+  home: {
+    title: "Cowboy Chords",
+    changes: "Changes",
+    changesNote: "Two minutes. One pair of chords, and how many times you can get between them.",
+    chords: "Chords",
+    chordsNote: "The shapes, and which ones you can hold.",
+    daysPractised: (n) => (n === 1 ? "Played 1 of the last 30 days" : `Played ${n} of the last 30 days`),
+    neverYet: "Nothing on the board yet",
+  },
+
   chords: {
     title: "Chords",
     intro: "The shapes, in the order they come. Pick one to see it up close.",
+    canHold: "I can hold this",
+    canHoldAlready: "You can hold this",
+    putBack: "Put it back",
+    // Relocking is not a demotion and nothing here implies one.
+    putBackNote: "Nothing is lost if you do — your numbers stay where they are, and it comes back the same.",
+  },
+
+  changes: {
+    title: "Changes",
+    roundOf: (n, of) => `Round ${n} of ${of}`,
+    // The tune-up line: a reminder, not a check. The app does not listen.
+    tuneUp: "Tune up first — six strings. Then get the first shape under your fingers, and start when you're ready.",
+    secondRound: "Different pair this time. Get it under your fingers first.",
+    start: "Start the minute",
+    stopEarly: "Stop",
+    howMany: "How many changes",
+    save: "Save it",
+    needANumber: "A number, up to three digits.",
+    firstOne: "That's the first one on the line.",
+    lastFew: (n) => `The last ${n} for this pair.`,
+    nextRound: "Next round",
+    done: "Done",
+    nothingUnlocked:
+      "Nothing to change between yet. Go to Chords and say which ones you can hold — two is enough to start.",
   },
 
   chord: {
@@ -39,6 +73,16 @@ export const strings = {
     fingers: "Fingers are numbered 1 for the index to 4 for the little finger.",
     strung: "Strings are numbered 1 for the thinnest to 6 for the thickest.",
     back: "All chords",
+
+    // Three of the eight are fingered differently here than on most charts she
+    // will find — Em, A and Dm — and one of them is the first chord she ever
+    // looks up. Without this she decides the app is broken and says nothing.
+    otherWays: "If that's not working for you",
+    otherWaysNote:
+      "This is the fingering Justin teaches, and it's the one to start with. Charts elsewhere often show it another way, and that's not a mistake on either side — which fingers you use depends on your hand and on what comes before and after it in a song. Try the other one, and if it suits you better, keep it. Every diagram in the app will follow.",
+    useThis: "Use this one",
+    inUse: "Yours",
+    backToDefault: "Back to Justin's",
   },
 
   soreFingers:
