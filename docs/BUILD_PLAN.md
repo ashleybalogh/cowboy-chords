@@ -91,10 +91,12 @@ fifth — the most literal demonstration available of the root-note idea her
 uncle singled out, and PRD §5.1 already puts the root in every chord box.
 Slide the shape two frets and the name changes with the root.
 
-It stays out of v1 anyway: it is a second notation to render and it breaks
-cowboy-chords-first. But it is the head of the v2 list rather than an item on
-it, and "Dammit" and "All the Small Things" on the horizon is a better
-motivator than any interstitial. PRD §9 is Ash's to amend.
+**Superseded the same day: they are Phase 8, in v1.** See the phase below.
+What changed is that this note assumed someone would teach them in person
+while the app stayed pure, and there is no in-person teacher — so the app is
+the only route to that half of her taste. "Dammit" and "All the Small Things"
+on the horizon is still a better motivator than any interstitial; it is just
+a nearer horizon now.
 
 **Nothing ever reports anywhere.** No analytics, no telemetry, no crash
 reporter, no "share your progress". This is already implied by PRD §2's no
@@ -437,6 +439,67 @@ practises with Wi-Fi off, and an export from the installed app imports into
 localhost with every score intact.
 
 ---
+
+## Phase 8 — power chords
+
+Promoted out of v2 (Ash, 2026-09-13). The reasoning that moved it: power
+chords were treated as something taught in person while the app stayed pure,
+and there is no in-person teacher. The app is the only route to the half of
+her taste that is built on them — Blink-182, Taking Back Sunday, and the rest
+of that shelf.
+
+The pedagogy holds on its own. A 5-shape is two fingers and no barre, which
+makes it physically easier than an open G; the PRD §2 ban is on *barre*
+chords and a power chord is not one. And it is the clearest demonstration
+available of the root note her uncle singled out and PRD §5.1 already marks in
+every box: slide the shape two frets and the root changes, and the chord's
+name changes with it.
+
+- A second box type: a **movable** shape with a fret-position marker. Every
+  box in v1 sits at the nut, so this is a real change to the renderer rather
+  than a variant of it — budget for that rather than discovering it.
+- A small set of songs, from her list, that the shape unlocks.
+- **No drills** (Ash, 2026-09-13). Power chords get songs, not rounds.
+  Sliding one shape and switching between two shapes are different skills,
+  and mixing them would flood `pairs.json` and muddy the one number she is
+  watching go up. Nothing about power chords enters the changes drill.
+- **The gate is Ash's to set**, and worth setting low. "Behind all eight open
+  chords" could be three months, and Blink is the motivation now — PRD §1's
+  own second problem is that nothing sounds like music for the first two
+  months, which power chords are the fastest available answer to. Three
+  playable songs, or the first five chords, keeps it a reward she can see
+  rather than a fork over the horizon.
+
+Needs a PRD amendment to §9, drafted in this branch for Ash to accept or
+rewrite.
+
+## The microphone: a live question, not a graveyard entry
+
+Moved out of "do not build" (Ash, 2026-09-13) because it was cut partly on an
+assumption that did not hold: PRD §5.3 says "for the first month a human does
+it better anyway", and the app is used alone.
+
+**It is not the first thing to reach for.** The gap §5.3 actually left was not
+a missing pair of ears — it was that the instruction stopped after "look at
+which finger is leaning on it" and never said what to look for. That is now
+filled by `watchFor` in `chords.json`, sourced from Justin, at no cost.
+
+If the microphone is revisited, the question is the wrong shape in the PRD and
+should be restated first:
+
+- The PRD frames it as pitch detection, and pitch is the hard part — YIN is
+  reliable on one clean note and much less so mid-arpeggio on a steel-string
+  acoustic, where the string before it is still ringing.
+- **She does not need to know the note is right. She needs to know the string
+  sounded at all.** Dead versus ringing is an onset-and-amplitude question,
+  not a pitch one, and it is far more tractable. It also maps exactly onto
+  §5.3, which is about dead strings rather than wrong notes, and it keeps the
+  rule that matters: the app never says a note is wrong, only that string six
+  did not ring.
+- Before it becomes a phase, that has to be shown to work on a real
+  steel-string in a real bedroom, in a throwaway page. It also needs a
+  permission prompt, which PRD §5 bans on first run — so where the prompt
+  goes is a product decision, not an implementation detail.
 
 ## Open questions
 

@@ -5,7 +5,20 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { strings } from "../src/strings.js";
+
+/* Copy that lives in content/ rather than in strings.js, because it belongs to
+ * a chord and Ash edits it there. It is user-facing all the same, so it is
+ * held to the same rules — otherwise the one file that is hand-edited most
+ * often is the one file the voice rules do not reach. */
+const chords = JSON.parse(
+  await readFile(new URL("../content/chords.json", import.meta.url), "utf8"),
+);
+const fromContent = chords.chords.flatMap((c) => [
+  [`chords.json ${c.id}.watchFor`, c.watchFor ?? ""],
+  ...(c.alternates ?? []).map((a) => [`chords.json ${c.id}.${a.id}.label`, a.label]),
+]);
 
 /* Some strings take arguments — a root line needs a note, a string and a fret.
  * They are called with both shapes that matter, an open root and a fretted
@@ -27,7 +40,7 @@ function* everyString(node, path = "strings") {
   }
 }
 
-const all = [...everyString(strings)];
+const all = [...everyString(strings), ...fromContent];
 
 test("there is something to check", () => {
   assert.ok(all.length > 0);

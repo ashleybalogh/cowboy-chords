@@ -92,6 +92,7 @@ export async function mountChords(root, { onChange } = {}) {
       para(detail.rootLine(chord.root.note, chord.root.string, chord.root.fret), "chord-detail-root"),
       para(detail.pressure),
       para(detail.ringClean),
+      watchFor(chord),
       ...(hasAlternates(chord) ? [alternates(chord)] : []),
       legend(),
       para(strings.soreFingers, "chord-detail-quiet"),
@@ -180,6 +181,18 @@ function para(text, className) {
   if (className) p.className = className;
   p.textContent = text;
   return p;
+}
+
+/** What usually goes wrong on this chord. The second half of PRD §5.3: she
+ *  finds the dead string, and this says which finger to look at. */
+function watchFor(chord) {
+  const section = document.createElement("section");
+  section.className = "chord-watch";
+  const title = document.createElement("p");
+  title.className = "label";
+  title.textContent = detail.watchFor;
+  section.append(title, para(chord.watchFor));
+  return section;
 }
 
 function legend() {

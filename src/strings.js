@@ -81,6 +81,10 @@ export const strings = {
     ringClean:
       "To find out whether it's clean, play it one string at a time, slowly, and listen for the one that's dead or buzzing. Then look at which finger is leaning on it. That's usually the whole answer.",
 
+    // The label over the per-chord failure mode. The text itself is in
+    // chords.json, because it belongs to the chord.
+    watchFor: "What usually goes wrong",
+
     fingers: "Fingers are numbered 1 for the index to 4 for the little finger.",
     strung: "Strings are numbered 1 for the thinnest to 6 for the thickest.",
     back: "All chords",

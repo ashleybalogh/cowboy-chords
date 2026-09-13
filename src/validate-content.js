@@ -54,6 +54,14 @@ export function validateChords(doc) {
     if (!chord.id) say("a chord has no id");
     if (!chord.name) say(`${where} has no name`);
 
+    // PRD §5.3 tells her to find the dead string herself and then look at
+    // which finger is on it. This is the half that was missing: what to look
+    // at. Every chord needs one, because the chord that has none is the one
+    // she gets stuck on.
+    if (typeof chord.watchFor !== "string" || chord.watchFor.trim() === "") {
+      say(`${where} has no watchFor — what usually goes wrong on it`);
+    }
+
     const fingered = chord.fingers?.map((f) => f.string) ?? [];
     const open = chord.open ?? [];
     const muted = chord.muted ?? [];
