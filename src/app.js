@@ -12,6 +12,7 @@ import { daysPractised } from "./drill.js";
 import { listChords, showDaysCount, standing } from "./progress.js";
 import { mountChords } from "./chords-screen.js";
 import { mountChanges } from "./changes-screen.js";
+import { mountStrum } from "./strum-screen.js";
 
 const s = strings.home;
 
@@ -26,8 +27,15 @@ export function start(root) {
     go.type = "button";
     go.className = "start";
     go.append(span("start-name", s.start), span("start-note", s.startNote));
+    // One button, and it runs the session. The session grows a stage per
+    // phase and always in PRD §3's order, so Phase 6 assembles what is
+    // already here rather than replacing it.
     go.addEventListener("click", () =>
-      screen(strings.changes.title, (el) => mountChanges(el, { onDone: home })),
+      screen(strings.changes.title, (el) =>
+        mountChanges(el, {
+          onDone: () => screen(strings.strum.title, (next) => mountStrum(next, { onDone: home })),
+        }),
+      ),
     );
 
     // Where she is, and the way into the only thing she controls. The line is

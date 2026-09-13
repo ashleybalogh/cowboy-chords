@@ -134,6 +134,7 @@ test("the snapshot names every key, so Phase 7's export cannot miss one", () => 
     "sessions",
     "settings",
     "unlocked",
+    "week",
   ]);
 });
 
